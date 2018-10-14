@@ -1,0 +1,14 @@
+<div style="text-align:center">
+  <h1>
+    Welcome to The Resistance!
+  </h1>
+</div>
+<div>
+  <button class="create" title="Create Game"
+    (click)="createGame();">Create Game</button>
+</div>
+<div>
+  <input placeholder="Enter Name" #playerName />
+  <button class="join" title="Join Game"
+  	(click)="joinGame(0, playerName.value);">Join Game</button>
+</div>

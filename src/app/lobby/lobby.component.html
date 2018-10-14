@@ -1,0 +1,19 @@
+<div style="text-align:center">
+  <h1>
+    Lobby
+  </h1>
+</div>
+
+<ul class="players">
+  <li *ngFor="let player of game.players">
+    {{player.name}}
+  </li>
+</ul>
+
+<div>
+  <button class="start" title="Start Game"
+    (click)="startGame()">Start Game</button>
+
+  <button class="exit" title="Exit Game"
+    (click)="exitGame()">Exit Game</button>
+</div>
