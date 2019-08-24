@@ -5,12 +5,12 @@ import { HomeComponent } from './home/home.component';
 import { IngameComponent } from './ingame/ingame.component';
 
 const routes: Routes = [
-	{ path: '', component: HomeComponent },
-	{ path: 'game', component: IngameComponent }
-]
+  { path: '', component: HomeComponent },
+  { path: 'game/:gameId', component: IngameComponent }
+];
 
 @NgModule({
-	imports: [RouterModule.forRoot(routes) ],
-	exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes) ],
+  exports: [RouterModule]
 })
 export class AppRoutingModule { }

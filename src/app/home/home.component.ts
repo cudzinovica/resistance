@@ -12,8 +12,8 @@ import { PlayerService } from '../player.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  player: Player;
-  game: Game;
+  playerId: string;
+  gameId: string;
 
   constructor(
     private gameService: GameService,
@@ -23,45 +23,26 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.getGame(0)
   }
 
-  createGame(): void {
-    let game = new Game();
-    game.id = 0;
-    game.inProgress = false;
-    game.players = [];
-    this.gameService.addGame(game)
-      .subscribe(game => {
-        this.game = game;
+  createGame(playerName: string): void {
+    this.gameService.createGame()
+      .subscribe(createdGame => {
+        this.gameService.setMyGameId(createdGame._id);
+        console.log(createdGame);
+        this.joinGame(createdGame._id, playerName);
       });
   }
 
-  joinGame(id: number, name: string): void {
-    name = name.trim();
-    if (!name) { return; }
+  joinGame(gameId: string, playerName: string): void {
+    playerName = playerName.trim();
+    if (!playerName) { return; }
 
-    let playerId = this.game.players.length;
-    this.playerService.addPlayer(playerId);
-
-    let player = new Player();
-
-    player.name = name;
-
-    this.game.players.push(player);
-    this.gameService.updateGame(this.game)
-      .subscribe(_ => {
-        this.router.navigate(['game'], { relativeTo: this.route });
+    this.playerService.createPlayer(gameId, playerName)
+      .subscribe(createdPlayer => {
+        this.playerService.setMyPlayerId(createdPlayer._id);
+        console.log(createdPlayer);
+        this.router.navigate(['/game', gameId]);
       });
   }
-
-  getGame(id: number): void {
-    this.gameService.getGame(id)
-      .subscribe(game => {
-        this.game = game;
-        console.log("home:");
-        console.log(game);
-      });
-  }
-
 }

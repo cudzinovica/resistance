@@ -6,7 +6,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { Game } from './game';
 import { Player } from './player';
-import { PlayerService } from './player.service'; 
+import { PlayerService } from './player.service';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -16,16 +16,43 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class GameService {
+  private gameId;
 
-  private gamesUrl = 'api/games';
+  private baseUrl = 'http://localhost:3000';
+  private gamesUrl = this.baseUrl + '/api/games';
 
   constructor(
     private http: HttpClient,
     private playerService: PlayerService
   ) { }
 
+  setMyGameId(gameId: string) {
+    this.gameId = gameId;
+  }
+
+  getMyGameId(): string {
+    return this.gameId;
+  }
+
+  /** POST: add a new game to the server */
+  createGame(): Observable<Game> {
+    return this.http.post(this.gamesUrl, null).pipe(
+      tap((createdGame: Game) => this.log(`added game w/ id=${createdGame._id}`)),
+      catchError(this.handleError<any>('createGame'))
+    );
+  }
+
+  /** GET list of games.*/
+  getGames(): Observable<Game[]> {
+    const url = `${this.gamesUrl}`;
+    return this.http.get<Game[]>(url).pipe(
+      tap(_ => this.log(`fetched games`)),
+      catchError(this.handleError<Game[]>('getGames'))
+    );
+  }
+
   /** GET game by id. Will 404 if id not found */
-  getGame(id: number): Observable<Game> {
+  getGame(id: string): Observable<Game> {
     const url = `${this.gamesUrl}/${id}`
     return this.http.get<Game>(url).pipe(
       tap(_ => this.log(`fetched game id=${id}`)),
@@ -33,31 +60,25 @@ export class GameService {
     );
   }
 
-  ////////// Save methods ///////////
-
-  /** POST: add a new game to the server */
-  addGame(game: Game): Observable<Game> {
-    return this.http.post(this.gamesUrl, game, httpOptions).pipe(
-      tap((game: Game) => this.log(`added game w/ id=${game.id}`)),
-      catchError(this.handleError<any>('addGame'))
-    );
-  }
-
   /** PUT: update the game on the server */
   updateGame(game: Game): Observable<any> {
-    return this.http.put(this.gamesUrl, game, httpOptions).pipe(
-      tap(_ => this.log(`updated game id=${game.id}`)),
+    const id = game._id;
+    const url = `${this.gamesUrl}/${id}`;
+    return this.http.put(url, game, httpOptions).pipe(
+      tap(_ => this.log(`updated game id=${game._id}`)),
       catchError(this.handleError<any>('updateGame'))
     );
   }
 
   /** DELETE: delete the game from the server */
-  deleteGame (game: Game | number): Observable<Game> {
-    const id = typeof game === 'number' ? game : game.id;
+  deleteGame (game: Game | string): Observable<Game> {
+    const id = typeof game === 'string' ? game : game._id;
     const url = `${this.gamesUrl}/${id}`;
 
     return this.http.delete<Game>(url, httpOptions).pipe(
-      tap(_ => this.log(`deleted game id=${id}`)),
+      tap(_ => {
+        this.log(`deleted game id=${id}`)
+      }),
       catchError(this.handleError<Game>('deleteGame'))
     );
   }

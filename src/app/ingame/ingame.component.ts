@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
 
 import { GameService } from '../game.service';
 import { Game } from '../game';
@@ -11,18 +13,22 @@ import { Game } from '../game';
 export class IngameComponent implements OnInit {
   game: Game;
 
-  constructor(private gameService: GameService) { }
+  constructor(
+    private gameService: GameService,
+    private route: ActivatedRoute,
+  ) { }
 
   ngOnInit() {
-    this.getGame(0);
+    this.route.paramMap.subscribe(params => {
+      const gameId = params.get('gameId');
+      this.getGame(gameId);
+    });
   }
 
-  getGame(id: number): void {
-    this.gameService.getGame(id)
-      .subscribe(game => {
-        this.game = game;
-        console.log("inGame:");
-        console.log(game);
-      });
+  getGame(id: string): void {
+    this.gameService.getGame(id).subscribe(game => {
+      this.game = game;
+      console.log(game);
+    });
   }
 }

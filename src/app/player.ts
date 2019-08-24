@@ -1,8 +1,12 @@
 import { Team } from './team';
 
 export class Player {
-  id: number;
+  _id: string;
   name: string;
-  gameId: number;
-  team: Team;
+  loyalty: Team;
+  character: number;
+  currentVote: boolean;
+  hasVoted: boolean;
+  currentQuest: boolean;
+  hasQuested: boolean;
 }
