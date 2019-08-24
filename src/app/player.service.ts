@@ -77,9 +77,7 @@ export class PlayerService {
     const url = `${this.gamesUrl}/${gameId}/${this.playersUrl}/${playerId}`;
 
     return this.http.delete<Player>(url, httpOptions).pipe(
-      tap(_ => {
-        this.log(`deleted player id=${playerId}`)
-      }),
+      tap(_ => this.log(`deleted player id=${playerId}`)),
       catchError(this.handleError<Player>('deletePlayer'))
     );
   }

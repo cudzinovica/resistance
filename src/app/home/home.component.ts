@@ -28,8 +28,6 @@ export class HomeComponent implements OnInit {
   createGame(playerName: string): void {
     this.gameService.createGame()
       .subscribe(createdGame => {
-        this.gameService.setMyGameId(createdGame._id);
-        console.log(createdGame);
         this.joinGame(createdGame._id, playerName);
       });
   }
@@ -37,6 +35,8 @@ export class HomeComponent implements OnInit {
   joinGame(gameId: string, playerName: string): void {
     playerName = playerName.trim();
     if (!playerName) { return; }
+
+    this.gameService.setMyGameId(gameId);
 
     this.playerService.createPlayer(gameId, playerName)
       .subscribe(createdPlayer => {

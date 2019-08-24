@@ -47,14 +47,8 @@ export class LobbyComponent implements OnInit {
       .subscribe(_ => {
         this.gameService.getGame(this.gameId)
           .subscribe(game => {
-            console.log(game);
-            console.log(game.players.length);
             if (game.players.length === 0) {
-              console.log('deleting game')
-              this.gameService.deleteGame(this.gameId)
-                .subscribe(_ => {
-                  console.log('deleted game');
-                });
+              this.gameService.deleteGame(this.gameId).subscribe();
             }
             this.router.navigate(['']);
           })
