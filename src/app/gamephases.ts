@@ -1,6 +1,8 @@
 export enum GamePhases {
-  Selection = 0,
+  Lobby = 0,
+  Setup,
+  Selection,
   Vote,
-  Mission,
-  GameOver
+  Quest,
+  Assassin
 }

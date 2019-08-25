@@ -31,13 +31,13 @@ export class LobbyComponent implements OnInit {
 
   /** Sets game to in progress **/
   startGame(): void {
-    const game = new Game();
-
-    game.phase = GamePhases.Selection;
-
-    this.gameService.updateGame(game)
-      .subscribe(updatedGame => {
-        console.log(updatedGame);
+    this.gameService.getGame(this.gameId)
+      .subscribe(game => {
+        game.phase = GamePhases.Selection;
+        this.gameService.updateGame(game)
+          .subscribe(game => {
+            console.log(game);
+          });
       });
   }
 
