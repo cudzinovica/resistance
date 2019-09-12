@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
 
 import { Game } from '../game';
 import { GameService } from '../game.service';
@@ -15,6 +16,8 @@ export class HomeComponent implements OnInit {
   playerId: string;
   gameId: string;
 
+  news: Observable<string>;
+
   constructor(
     private gameService: GameService,
     private playerService: PlayerService,
@@ -23,6 +26,7 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.news = this.gameService.news;
   }
 
   createGame(playerName: string): void {

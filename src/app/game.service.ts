@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
+import { Socket } from 'ngx-socket-io';
+
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { Game } from './game';
-import { Player } from './player';
 import { PlayerService } from './player.service';
 
 const httpOptions = {
@@ -18,12 +19,14 @@ const httpOptions = {
 export class GameService {
   private gameId;
 
+  news = this.socket.fromEvent<string>('news');
+
   private baseUrl = 'http://localhost:3000';
   private gamesUrl = this.baseUrl + '/api/games';
 
   constructor(
     private http: HttpClient,
-    private playerService: PlayerService
+    private socket: Socket
   ) { }
 
   setMyGameId(gameId: string) {
@@ -36,6 +39,8 @@ export class GameService {
 
   /** POST: add a new game to the server */
   createGame(): Observable<Game> {
+    this.socket.emit('test-event', 'CREATED GAME');
+
     return this.http.post(this.gamesUrl, null).pipe(
       tap((createdGame: Game) => this.log(`added game w/ id=${createdGame._id}`)),
       catchError(this.handleError<any>('createGame'))
