@@ -1,4 +1,4 @@
-import { Team } from './team';
+import { Team } from '../enums/team';
 
 export class Player {
   _id: string;

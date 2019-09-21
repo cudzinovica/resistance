@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { GameService } from '../game.service';
-import { Game } from '../game';
-import { PlayerService } from '../player.service';
-import { Player } from '../player';
-import { GamePhases } from '../gamephases';
+import { GameService } from '../services/game.service';
+import { Game } from '../models/game';
+import { PlayerService } from '../services/player.service';
+import { Player } from '../models/player';
+import { GamePhases } from '../enums/gamephases';
 
 
 @Component({

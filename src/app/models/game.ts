@@ -1,5 +1,5 @@
-import { GamePhases } from './gamephases';
-import { Team } from './team';
+import { GamePhases } from '../enums/gamephases';
+import { Team } from '../enums/team';
 import { Player } from './player';
 
 export class Game {
