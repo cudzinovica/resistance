@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { startWith } from 'rxjs/operators';
 
 import { Game } from '../models/game';
 import { GameService } from '../services/game.service';
@@ -11,9 +13,12 @@ import { PlayerService } from '../services/player.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   playerId: string;
   gameId: string;
+
+  news: string;
+  private _newsSub: Subscription;
 
   constructor(
     private gameService: GameService,
@@ -23,6 +28,16 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this._newsSub = this.gameService.currentNews.subscribe(news => this.news = news);
+  }
+
+  ngOnDestroy() {
+    this._newsSub.unsubscribe();
+  }
+
+  sendTestEvent(msg: string) {
+    console.log(`sending test event: ${msg}`);
+    this.gameService.sendTestEvent(msg);
   }
 
   createGame(playerName: string): void {

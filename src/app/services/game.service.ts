@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Socket } from 'ngx-socket-io';
 
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -21,10 +22,17 @@ export class GameService {
   private baseUrl = 'http://localhost:3000';
   private gamesUrl = this.baseUrl + '/api/games';
 
+  currentNews = this.socket.fromEvent<string>('news');
+
   constructor(
     private http: HttpClient,
+    private socket: Socket,
     private playerService: PlayerService
   ) { }
+
+  sendTestEvent(msg: string) {
+    this.socket.emit('test-event', msg);
+  }
 
   setMyGameId(gameId: string) {
     this.gameId = gameId;
