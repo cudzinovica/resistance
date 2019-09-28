@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { GameService } from '../services/game.service';
 import { Game } from '../models/game';
+import { GamePhases } from '../enums/gamephases';
 
 @Component({
   selector: 'app-ingame',
@@ -12,8 +13,10 @@ import { Game } from '../models/game';
 })
 export class IngameComponent implements OnInit, OnDestroy {
   game: Game;
-  private _gameSub: Subscription;
+  private gameSub: Subscription;
   private errorMsgSub: Subscription;
+
+  gamePhases = GamePhases;
 
   constructor(
     private gameService: GameService,
@@ -21,12 +24,23 @@ export class IngameComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this._gameSub = this.gameService.getThisGame().subscribe( game => this.game = game );
+    this.route.paramMap.subscribe(params => {
+      const gameId = params.get('gameId');
+      this.getGame(gameId);
+    });
+    this.gameSub = this.gameService.getThisGame().subscribe( game => this.game = game );
     this.errorMsgSub = this.gameService.getErrorMessage().subscribe( errorMsg => alert(errorMsg) );
   }
 
   ngOnDestroy() {
-    this._gameSub.unsubscribe();
+    this.gameSub.unsubscribe();
     this.errorMsgSub.unsubscribe();
+  }
+
+  getGame(id: string): void {
+    this.gameService.getGame(id).subscribe(game => {
+      this.game = game;
+      console.log(game);
+    });
   }
 }

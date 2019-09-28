@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Socket } from 'ngx-socket-io';
 
 import { Observable, of } from 'rxjs';
@@ -69,8 +69,10 @@ export class GameService {
 
   /** GET game by id. Will 404 if id not found */
   getGame(id: string): Observable<Game> {
-    const url = `${this.gamesUrl}/${id}`
-    return this.http.get<Game>(url).pipe(
+    const url = `${this.gamesUrl}/${id}`;
+    let params = new HttpParams();
+    params = params.append('populatePlayers', 'true');
+    return this.http.get<Game>(url, {params}).pipe(
       tap(_ => this.log(`fetched game id=${id}`)),
       catchError(this.handleError<Game>('getGame'))
     );

@@ -2,9 +2,9 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { GameService } from '../services/game.service';
-import { Game } from '../models/game';
-import { PlayerService } from '../services/player.service';
+import { GameService } from '../../services/game.service';
+import { Game } from '../../models/game';
+import { PlayerService } from '../../services/player.service';
 
 
 @Component({
