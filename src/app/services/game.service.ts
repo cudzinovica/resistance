@@ -35,6 +35,10 @@ export class GameService {
     this.socket.emit('join-game', {gameId});
   }
 
+  leaveGame(gameId: string): void {
+    this.socket.emit('leave-game', {gameId});
+  }
+
   startGame(gameId: string): void {
     this.socket.emit('start-game', {gameId});
   }

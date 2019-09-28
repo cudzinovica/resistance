@@ -46,13 +46,15 @@ export class LobbyComponent implements OnInit {
   exitGame(): void {
     this.playerService.deletePlayer(this.game._id, this.playerId)
       .subscribe(_ => {
+        this.gameService.leaveGame(this.game._id);
+
         this.gameService.getGame(this.game._id)
           .subscribe(game => {
             if (game.players.length === 0) {
               this.gameService.deleteGame(this.game._id).subscribe();
             }
             this.router.navigate(['']);
-          })
+          });
       });
   }
 }
