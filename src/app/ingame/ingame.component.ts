@@ -13,6 +13,7 @@ import { Game } from '../models/game';
 export class IngameComponent implements OnInit, OnDestroy {
   game: Game;
   private _gameSub: Subscription;
+  private errorMsgSub: Subscription;
 
   constructor(
     private gameService: GameService,
@@ -21,9 +22,11 @@ export class IngameComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this._gameSub = this.gameService.getThisGame().subscribe( game => this.game = game );
+    this.errorMsgSub = this.gameService.getErrorMessage().subscribe( errorMsg => alert(errorMsg) );
   }
 
   ngOnDestroy() {
     this._gameSub.unsubscribe();
+    this.errorMsgSub.unsubscribe();
   }
 }

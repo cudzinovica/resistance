@@ -19,6 +19,7 @@ export class GameService {
   private gamesUrl = this.baseUrl + '/api/games';
 
   private game: Observable<Game> = this.socket.fromEvent<Game>('game');
+  private errorMsg: Observable<string> = this.socket.fromEvent<string>('error_msg');
 
   constructor(
     private http: HttpClient,
@@ -28,6 +29,12 @@ export class GameService {
   getThisGame(): Observable<Game> {
     return this.game.pipe(
       tap((game: Game) => this.log(`got game from socket w/ id=${game._id}`))
+    );
+  }
+
+  getErrorMessage(): Observable<string> {
+    return this.errorMsg.pipe(
+      tap((errorMsg: string) => this.log(`got error message from socket: ${errorMsg}`))
     );
   }
 

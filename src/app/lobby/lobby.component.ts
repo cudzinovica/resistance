@@ -5,8 +5,6 @@ import { Subscription } from 'rxjs';
 import { GameService } from '../services/game.service';
 import { Game } from '../models/game';
 import { PlayerService } from '../services/player.service';
-import { Player } from '../models/player';
-import { GamePhases } from '../enums/gamephases';
 
 
 @Component({
@@ -32,14 +30,7 @@ export class LobbyComponent implements OnInit {
 
   /** Sets game to in progress **/
   startGame(): void {
-    this.gameService.getGame(this.game._id)
-      .subscribe(game => {
-        game.phase = GamePhases.Selection;
-        this.gameService.updateGame(game)
-          .subscribe(game => {
-            console.log(game);
-          });
-      });
+    this.gameService.startGame(this.game._id);
   }
 
   /** Removes Player from game and routes to home **/
