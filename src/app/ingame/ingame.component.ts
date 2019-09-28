@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 import { GameService } from '../services/game.service';
 import { Game } from '../models/game';
@@ -10,8 +10,9 @@ import { Game } from '../models/game';
   templateUrl: './ingame.component.html',
   styleUrls: ['./ingame.component.css']
 })
-export class IngameComponent implements OnInit {
+export class IngameComponent implements OnInit, OnDestroy {
   game: Game;
+  private _gameSub: Subscription;
 
   constructor(
     private gameService: GameService,
@@ -19,16 +20,10 @@ export class IngameComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      const gameId = params.get('gameId');
-      this.getGame(gameId);
-    });
+    this._gameSub = this.gameService.getThisGame().subscribe( game => this.game = game );
   }
 
-  getGame(id: string): void {
-    this.gameService.getGame(id).subscribe(game => {
-      this.game = game;
-      console.log(game);
-    });
+  ngOnDestroy() {
+    this._gameSub.unsubscribe();
   }
 }

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 import { GameService } from '../services/game.service';
 import { Game } from '../models/game';
@@ -14,7 +15,8 @@ import { GamePhases } from '../enums/gamephases';
   styleUrls: ['./lobby.component.css']
 })
 export class LobbyComponent implements OnInit {
-  gameId: string;
+  @Input() game: Game;
+
   playerId: string;
 
   constructor(
@@ -25,13 +27,12 @@ export class LobbyComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.gameId = this.gameService.getMyGameId();
     this.playerId = this.playerService.getMyPlayerId();
   }
 
   /** Sets game to in progress **/
   startGame(): void {
-    this.gameService.getGame(this.gameId)
+    this.gameService.getGame(this.game._id)
       .subscribe(game => {
         game.phase = GamePhases.Selection;
         this.gameService.updateGame(game)
@@ -43,12 +44,12 @@ export class LobbyComponent implements OnInit {
 
   /** Removes Player from game and routes to home **/
   exitGame(): void {
-    this.playerService.deletePlayer(this.gameId, this.playerId)
+    this.playerService.deletePlayer(this.game._id, this.playerId)
       .subscribe(_ => {
-        this.gameService.getGame(this.gameId)
+        this.gameService.getGame(this.game._id)
           .subscribe(game => {
             if (game.players.length === 0) {
-              this.gameService.deleteGame(this.gameId).subscribe();
+              this.gameService.deleteGame(this.game._id).subscribe();
             }
             this.router.navigate(['']);
           })

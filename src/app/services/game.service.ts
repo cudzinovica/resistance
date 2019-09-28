@@ -3,11 +3,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Socket } from 'ngx-socket-io';
 
 import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 
 import { Game } from '../models/game';
-import { Player } from '../models/player';
-import { PlayerService } from './player.service';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -17,29 +15,28 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class GameService {
-  private gameId;
-
   private baseUrl = 'http://localhost:3000';
   private gamesUrl = this.baseUrl + '/api/games';
 
-  currentNews = this.socket.fromEvent<string>('news');
+  private game: Observable<Game> = this.socket.fromEvent<Game>('game');
 
   constructor(
     private http: HttpClient,
-    private socket: Socket,
-    private playerService: PlayerService
+    private socket: Socket
   ) { }
 
-  sendTestEvent(msg: string) {
-    this.socket.emit('test-event', msg);
+  getThisGame(): Observable<Game> {
+    return this.game.pipe(
+      tap((game: Game) => this.log(`got game from socket w/ id=${game._id}`))
+    );
   }
 
-  setMyGameId(gameId: string) {
-    this.gameId = gameId;
+  joinGame(gameId: string): void {
+    this.socket.emit('join-game', {gameId});
   }
 
-  getMyGameId(): string {
-    return this.gameId;
+  startGame(gameId: string): void {
+    this.socket.emit('start-game', {gameId});
   }
 
   /** POST: add a new game to the server */
@@ -79,7 +76,7 @@ export class GameService {
   }
 
   /** DELETE: delete the game from the server */
-  deleteGame (game: Game | string): Observable<Game> {
+  deleteGame(game: Game | string): Observable<Game> {
     const id = typeof game === 'string' ? game : game._id;
     const url = `${this.gamesUrl}/${id}`;
 
@@ -95,11 +92,11 @@ export class GameService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T> (operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure
-      console.error(`${operation}:`)
+      console.error(`${operation}:`);
       console.error(error); // log to console instead
 
       // Let the app keep running by returning an empty result.

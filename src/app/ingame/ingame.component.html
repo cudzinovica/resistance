@@ -2,5 +2,5 @@
 <ng-template #elseBlock><app-lobby></app-lobby></ng-template>
  -->
 
- <div *ngIf="game.phase == 0; else game_template"><app-lobby></app-lobby></div>
+ <div *ngIf="game.phase == 0; else game_template"><app-lobby [game]=game></app-lobby></div>
  <ng-template #game_template><app-game></app-game></ng-template>
