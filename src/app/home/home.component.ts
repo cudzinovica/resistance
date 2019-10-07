@@ -1,9 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { Game } from '../models/game';
 import { GameService } from '../services/game.service';
-import { Player } from '../models/player';
 import { PlayerService } from '../services/player.service';
 
 @Component({
@@ -31,8 +29,7 @@ export class HomeComponent {
     if (!playerName) { return; }
 
     this.playerService.createPlayer(gameId, playerName).subscribe(createdPlayer => {
-      this.playerService.setMyPlayerId(createdPlayer._id);
-      console.log(createdPlayer);
+      this.playerService.setPlayerId(createdPlayer._id);
 
       this.gameService.joinGame(gameId);
 

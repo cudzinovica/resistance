@@ -3,6 +3,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { GameService } from '../services/game.service';
+import { PlayerService } from '../services/player.service';
 import { Game } from '../models/game';
 import { GamePhases } from '../enums/gamephases';
 
@@ -13,20 +14,25 @@ import { GamePhases } from '../enums/gamephases';
 })
 export class IngameComponent implements OnInit, OnDestroy {
   game: Game;
+
   private gameSub: Subscription;
   private errorMsgSub: Subscription;
+  private playerIdSub: Subscription;
 
   gamePhases = GamePhases;
 
   constructor(
     private gameService: GameService,
+    private playerService: PlayerService,
     private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const gameId = params.get('gameId');
-      this.getGame(gameId);
+      if (!this.game) {
+        this.gameService.joinGame(gameId);
+      }
     });
     this.gameSub = this.gameService.getThisGame().subscribe( game => this.game = game );
     this.errorMsgSub = this.gameService.getErrorMessage().subscribe( errorMsg => alert(errorMsg) );
@@ -35,12 +41,5 @@ export class IngameComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.gameSub.unsubscribe();
     this.errorMsgSub.unsubscribe();
-  }
-
-  getGame(id: string): void {
-    this.gameService.getGame(id).subscribe(game => {
-      this.game = game;
-      console.log(game);
-    });
   }
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Socket } from 'ngx-socket-io';
 
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -10,27 +11,31 @@ const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
+const playerIdKey = 'player-id';
+
 @Injectable({
   providedIn: 'root'
 })
 export class PlayerService {
-  private playerId;
-
   private baseUrl = 'http://localhost:3000';
   private gamesUrl = this.baseUrl + '/api/games';
   private playersUrl = 'players';
 
   constructor(
     private http: HttpClient,
-    private playerService: PlayerService
+    private socket: Socket
   ) { }
 
-  setMyPlayerId(playerId: string) {
-    this.playerId = playerId;
+  setPlayerId(playerId: string): void {
+    localStorage.setItem(playerIdKey, playerId);
   }
 
-  getMyPlayerId(): string {
-    return this.playerId;
+  getPlayerId(): string {
+    return localStorage.getItem(playerIdKey);
+  }
+
+  removePlayerId(): void {
+    localStorage.removeItem(playerIdKey);
   }
 
   /** POST: add a new player to the server */
@@ -72,7 +77,7 @@ export class PlayerService {
   }
 
   /** DELETE: delete the player from the server */
-  deletePlayer (gameId: string, player: Player | string): Observable<Player> {
+  deletePlayer(gameId: string, player: Player | string): Observable<Player> {
     const playerId = typeof player === 'string' ? player : player._id;
     const url = `${this.gamesUrl}/${gameId}/${this.playersUrl}/${playerId}`;
 

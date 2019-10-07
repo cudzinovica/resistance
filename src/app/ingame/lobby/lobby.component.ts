@@ -15,17 +15,13 @@ import { PlayerService } from '../../services/player.service';
 export class LobbyComponent implements OnInit {
   @Input() game: Game;
 
-  playerId: string;
-
   constructor(
     private gameService: GameService,
     private playerService: PlayerService,
     private router: Router,
-    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    this.playerId = this.playerService.getMyPlayerId();
   }
 
   /** Sets game to in progress **/
@@ -35,7 +31,8 @@ export class LobbyComponent implements OnInit {
 
   /** Removes Player from game and routes to home **/
   exitGame(): void {
-    this.playerService.deletePlayer(this.game._id, this.playerId)
+    const playerId = this.playerService.getPlayerId();
+    this.playerService.deletePlayer(this.game._id, playerId)
       .subscribe(_ => {
         this.gameService.leaveGame(this.game._id);
 
