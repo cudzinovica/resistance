@@ -1,1 +1,7 @@
-<p>selection works!</p>
+<div>
+  <div *ngIf="teamDisplay">You are {{team}}</div>
+  <div><button (click)="toggleTeamDisplay()">
+    <div *ngIf="!teamDisplay">Show</div>
+    <div *ngIf="teamDisplay">Hide</div>
+  </button></div>
+</div>

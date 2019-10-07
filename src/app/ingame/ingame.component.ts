@@ -1,4 +1,4 @@
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
@@ -24,16 +24,10 @@ export class IngameComponent implements OnInit, OnDestroy {
   constructor(
     private gameService: GameService,
     private playerService: PlayerService,
-    private route: ActivatedRoute,
+    private router: Router,
   ) { }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      const gameId = params.get('gameId');
-      if (!this.game) {
-        this.gameService.joinGame(gameId);
-      }
-    });
     this.gameSub = this.gameService.getThisGame().subscribe( game => this.game = game );
     this.errorMsgSub = this.gameService.getErrorMessage().subscribe( errorMsg => alert(errorMsg) );
   }
@@ -41,5 +35,27 @@ export class IngameComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.gameSub.unsubscribe();
     this.errorMsgSub.unsubscribe();
+  }
+
+  /** Ends Game */
+  endGame(): void {
+    this.gameService.endGame();
+  }
+
+  /** Removes Player from game and routes to home */
+  exitGame(): void {
+    const playerId = this.playerService.getPlayerId();
+    this.playerService.deletePlayer(this.game._id, playerId)
+      .subscribe(_ => {
+        this.gameService.leaveGame();
+
+        this.gameService.getGame(this.game._id)
+          .subscribe(game => {
+            if (game.players.length === 0) {
+              this.gameService.deleteGame(this.game._id).subscribe();
+            }
+            this.router.navigate(['']);
+          });
+      });
   }
 }

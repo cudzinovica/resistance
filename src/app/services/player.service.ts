@@ -11,8 +11,6 @@ const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
-const playerIdKey = 'player-id';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -21,21 +19,19 @@ export class PlayerService {
   private gamesUrl = this.baseUrl + '/api/games';
   private playersUrl = 'players';
 
+  private playerId: string;
+
   constructor(
     private http: HttpClient,
     private socket: Socket
   ) { }
 
   setPlayerId(playerId: string): void {
-    localStorage.setItem(playerIdKey, playerId);
+    this.playerId = playerId;
   }
 
   getPlayerId(): string {
-    return localStorage.getItem(playerIdKey);
-  }
-
-  removePlayerId(): void {
-    localStorage.removeItem(playerIdKey);
+    return this.playerId;
   }
 
   /** POST: add a new player to the server */

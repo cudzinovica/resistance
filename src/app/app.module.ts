@@ -9,6 +9,7 @@ import { LobbyComponent } from './ingame/lobby/lobby.component';
 import { IngameComponent } from './ingame/ingame.component';
 import { SelectionComponent } from './ingame/selection/selection.component';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { JoingameComponent } from './ingame/joingame/joingame.component';
 
 const config: SocketIoConfig = { url: 'http://localhost:4000', options: {} };
 
@@ -19,6 +20,7 @@ const config: SocketIoConfig = { url: 'http://localhost:4000', options: {} };
     LobbyComponent,
     IngameComponent,
     SelectionComponent,
+    JoingameComponent,
   ],
   imports: [
     BrowserModule,
@@ -27,6 +29,7 @@ const config: SocketIoConfig = { url: 'http://localhost:4000', options: {} };
     SocketIoModule.forRoot(config)
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports: [JoingameComponent]
 })
 export class AppModule { }

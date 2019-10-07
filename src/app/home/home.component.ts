@@ -14,7 +14,6 @@ export class HomeComponent {
     private gameService: GameService,
     private playerService: PlayerService,
     private router: Router,
-    private route: ActivatedRoute
   ) {}
 
   createGame(playerName: string): void {
@@ -31,7 +30,7 @@ export class HomeComponent {
     this.playerService.createPlayer(gameId, playerName).subscribe(createdPlayer => {
       this.playerService.setPlayerId(createdPlayer._id);
 
-      this.gameService.joinGame(gameId);
+      this.gameService.joinGame(gameId, createdPlayer._id);
 
       this.router.navigate(['/game', gameId]);
     });

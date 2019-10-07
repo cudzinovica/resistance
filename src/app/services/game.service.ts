@@ -43,16 +43,20 @@ export class GameService {
     );
   }
 
-  joinGame(gameId: string): void {
-    this.socket.emit('join-game', {gameId});
+  joinGame(gameId: string, playerId: string): void {
+    this.socket.emit('join-game', {gameId, playerId});
   }
 
-  leaveGame(gameId: string): void {
-    this.socket.emit('leave-game', {gameId});
+  leaveGame(): void {
+    this.socket.emit('leave-game');
   }
 
-  startGame(gameId: string): void {
-    this.socket.emit('start-game', {gameId});
+  startGame(): void {
+    this.socket.emit('start-game');
+  }
+
+  endGame(): void {
+    this.socket.emit('end-game');
   }
 
   /** POST: add a new game to the server */
@@ -63,7 +67,7 @@ export class GameService {
     );
   }
 
-  /** GET list of games.*/
+  /** GET list of games. */
   getGames(): Observable<Game[]> {
     const url = `${this.gamesUrl}`;
     return this.http.get<Game[]>(url).pipe(

@@ -1,6 +1,11 @@
-<!-- <app-game *ngIf="gameOn"></app-game>
-<ng-template #elseBlock><app-lobby></app-lobby></ng-template>
- -->
-
- <div *ngIf="game.phase == gamePhases.Lobby"><app-lobby [game]=game></app-lobby></div>
- <div *ngIf="game.phase == gamePhases.Selection"><app-selection [game]=game></app-selection></div>
+<div *ngIf="game; else joinGame">
+  <div><button class="exit" title="Exit Game" (click)="exitGame()">Exit Game</button></div>
+  <div *ngIf="game.phase != gamePhases.Lobby">
+    <button (click)="endGame()">End Game</button>
+  </div>
+  <div *ngIf="game.phase == gamePhases.Lobby"><app-lobby [game]=game></app-lobby></div>
+  <div *ngIf="game.phase == gamePhases.Selection"><app-selection [game]=game></app-selection></div>
+  </div>
+<ng-template #joinGame>
+  <app-joingame></app-joingame>
+</ng-template>

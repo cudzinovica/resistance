@@ -1,10 +1,7 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
 
 import { GameService } from '../../services/game.service';
 import { Game } from '../../models/game';
-import { PlayerService } from '../../services/player.service';
 
 
 @Component({
@@ -17,8 +14,6 @@ export class LobbyComponent implements OnInit {
 
   constructor(
     private gameService: GameService,
-    private playerService: PlayerService,
-    private router: Router,
   ) {}
 
   ngOnInit() {
@@ -26,23 +21,6 @@ export class LobbyComponent implements OnInit {
 
   /** Sets game to in progress **/
   startGame(): void {
-    this.gameService.startGame(this.game._id);
-  }
-
-  /** Removes Player from game and routes to home **/
-  exitGame(): void {
-    const playerId = this.playerService.getPlayerId();
-    this.playerService.deletePlayer(this.game._id, playerId)
-      .subscribe(_ => {
-        this.gameService.leaveGame(this.game._id);
-
-        this.gameService.getGame(this.game._id)
-          .subscribe(game => {
-            if (game.players.length === 0) {
-              this.gameService.deleteGame(this.game._id).subscribe();
-            }
-            this.router.navigate(['']);
-          });
-      });
+    this.gameService.startGame();
   }
 }
