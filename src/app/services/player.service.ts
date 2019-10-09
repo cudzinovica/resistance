@@ -64,7 +64,7 @@ export class PlayerService {
   updatePlayer(gameId: string, player: Player): Observable<any> {
     const playerId = player._id;
     const url = `${this.gamesUrl}/${gameId}/${this.playersUrl}/${playerId}`;
-    return this.http.put(this.playersUrl, player, httpOptions).pipe(
+    return this.http.put(url, player, httpOptions).pipe(
       tap(_ => this.log(`updated player id=${player._id}`)),
       catchError(this.handleError<any>('updatePlayer'))
     );
@@ -87,7 +87,7 @@ export class PlayerService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T> (operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure
