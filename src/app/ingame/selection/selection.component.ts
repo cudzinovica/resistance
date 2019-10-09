@@ -5,6 +5,7 @@ import { Loyalty } from '../../enums/loyalty';
 import { PlayerService } from 'src/app/services/player.service';
 import { Player } from 'src/app/models/player';
 import { TEAM_SIZES } from 'src/app/constants';
+import { GameService } from 'src/app/services/game.service';
 
 @Component({
   selector: 'app-selection',
@@ -25,6 +26,7 @@ export class SelectionComponent implements OnInit {
   selection: string[];
 
   constructor(
+    private gameService: GameService,
     private playerService: PlayerService,
   ) { }
 
@@ -52,5 +54,9 @@ export class SelectionComponent implements OnInit {
         this.selection.push(playerId);
       }
     }
+  }
+
+  submitSelection() {
+    this.gameService.submitSelection(this.selection);
   }
 }

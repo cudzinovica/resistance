@@ -64,6 +64,10 @@ export class GameService {
     this.socket.emit('end-game');
   }
 
+  submitSelection(selection: string[]): void {
+    this.socket.emit('submit-selection', {selection});
+  }
+
   /** POST: add a new game to the server */
   createGame(): Observable<Game> {
     return this.http.post(this.gamesUrl, null).pipe(
