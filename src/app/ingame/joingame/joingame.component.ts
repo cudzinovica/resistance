@@ -1,9 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { EventEmitter } from '@angular/core';
 
 import { GameService } from '../../services/game.service';
 import { PlayerService } from '../../services/player.service';
-import { Game } from 'src/app/models/game';
 
 @Component({
   selector: 'app-joingame',
@@ -12,6 +12,7 @@ import { Game } from 'src/app/models/game';
 })
 export class JoingameComponent implements OnInit {
   private gameId: string;
+  @Output() playerIdChange = new EventEmitter<string>();
 
   constructor(
     private gameService: GameService,
@@ -20,6 +21,7 @@ export class JoingameComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.gameService.connect();
     this.route.paramMap.subscribe(params => {
       this.gameId = params.get('gameId');
     });
@@ -31,6 +33,7 @@ export class JoingameComponent implements OnInit {
 
     this.playerService.createPlayer(this.gameId, playerName).subscribe(createdPlayer => {
       this.playerService.setPlayerId(createdPlayer._id);
+      this.playerIdChange.emit(createdPlayer._id);
 
       this.gameService.joinGame(this.gameId, createdPlayer._id);
     });

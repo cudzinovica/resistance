@@ -27,6 +27,8 @@ export class HomeComponent {
     playerName = playerName.trim();
     if (!playerName) { return; }
 
+    this.gameService.connect();
+
     this.playerService.createPlayer(gameId, playerName).subscribe(createdPlayer => {
       this.playerService.setPlayerId(createdPlayer._id);
 

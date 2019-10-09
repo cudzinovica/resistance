@@ -28,6 +28,12 @@ export class GameService {
 
   connect(): void {
     this.socket.connect();
+    this.log('connected to socket');
+  }
+
+  disconnect(): void {
+    this.socket.disconnect();
+    this.log('disconnected from socket');
   }
 
   getThisGame(): Observable<Game> {

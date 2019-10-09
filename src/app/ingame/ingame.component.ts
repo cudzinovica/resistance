@@ -14,6 +14,7 @@ import { GamePhases } from '../enums/gamephases';
 })
 export class IngameComponent implements OnInit, OnDestroy {
   game: Game;
+  playerId: string;
 
   private gameSub: Subscription;
   private errorMsgSub: Subscription;
@@ -29,9 +30,13 @@ export class IngameComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.gameSub = this.gameService.getThisGame().subscribe( game => this.game = game );
     this.errorMsgSub = this.gameService.getErrorMessage().subscribe( errorMsg => alert(errorMsg) );
+    this.playerId = this.playerService.getPlayerId();
+
+    window.onbeforeunload = () => this.ngOnDestroy();
   }
 
   ngOnDestroy() {
+    this.gameService.disconnect();
     this.gameSub.unsubscribe();
     this.errorMsgSub.unsubscribe();
   }
@@ -43,8 +48,7 @@ export class IngameComponent implements OnInit, OnDestroy {
 
   /** Removes Player from game and routes to home */
   exitGame(): void {
-    const playerId = this.playerService.getPlayerId();
-    this.playerService.deletePlayer(this.game._id, playerId)
+    this.playerService.deletePlayer(this.game._id, this.playerId)
       .subscribe(_ => {
         this.gameService.leaveGame();
 
@@ -56,5 +60,9 @@ export class IngameComponent implements OnInit, OnDestroy {
             this.router.navigate(['']);
           });
       });
+  }
+
+  changePlayerId($event: string): void {
+    this.playerId = $event;
   }
 }

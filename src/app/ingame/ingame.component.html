@@ -4,8 +4,8 @@
     <button (click)="endGame()">End Game</button>
   </div>
   <div *ngIf="game.phase == gamePhases.Lobby"><app-lobby [game]=game></app-lobby></div>
-  <div *ngIf="game.phase == gamePhases.Selection"><app-selection [game]=game></app-selection></div>
-  </div>
+  <div *ngIf="game.phase == gamePhases.Selection"><app-selection [game]=game [playerId]=playerId></app-selection></div>
+</div>
 <ng-template #joinGame>
-  <app-joingame></app-joingame>
+  <app-joingame (playerIdChange)="changePlayerId($event)"></app-joingame>
 </ng-template>
