@@ -9,10 +9,6 @@ div.mission-results > div {
   margin-right: 1em;
 }
 
-div.player-button {
-  border: black;
-}
-
-div.player-button.selected {
+button.select-button.selected {
   background: green;
 }

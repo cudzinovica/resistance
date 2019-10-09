@@ -2,9 +2,9 @@
   <div *ngIf="playerId===currentLeader._id; else nonLeader">
     <div>Choose {{TEAM_SIZES[this.game.players.length][this.game.currentRound]}} players for team</div>
     <div class="team-buttons">
-      <div *ngFor="let player of game.players" class="player-button" (click)="selectPlayer(player._id)" [ngClass]="{'selected': selection.includes(player._id)}">
+      <div *ngFor="let player of game.players"><button class="select-button" (click)="selectPlayer(player._id)" [ngClass]="{'selected': selection.includes(player._id)}">
         {{player.name}}
-      </div>
+      </button></div>
     </div>
     <div><button (click)="submitSelection()">Submit</button></div>
   </div>

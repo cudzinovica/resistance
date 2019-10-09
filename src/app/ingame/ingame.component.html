@@ -1,7 +1,7 @@
 <div *ngIf="game; else joinGame">
   <div><button class="exit" title="Exit Game" (click)="exitGame()">Exit Game</button></div>
   <div *ngIf="game.phase == gamePhases.Lobby; else gameTemplate"><app-lobby [game]=game></app-lobby></div>
-  <ng-template #gameTemplate><app-game [game]=game [playerId]=playerId></app-game></ng-template>
+  <ng-template #gameTemplate><app-game [game]=game [playerId]=playerId [player]=player [currentLeader]=currentLeader></app-game></ng-template>
 </div>
 <ng-template #joinGame>
   <app-joingame (playerIdChange)="changePlayerId($event)"></app-joingame>

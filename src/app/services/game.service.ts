@@ -68,6 +68,14 @@ export class GameService {
     this.socket.emit('submit-selection', {selection});
   }
 
+  submitVote(vote: boolean): void {
+    this.socket.emit('submit-vote', {vote});
+  }
+
+  submitQuest(quest: boolean): void {
+    this.socket.emit('submit-vote', {quest});
+  }
+
   /** POST: add a new game to the server */
   createGame(): Observable<Game> {
     return this.http.post(this.gamesUrl, null).pipe(

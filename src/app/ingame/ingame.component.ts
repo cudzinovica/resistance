@@ -6,6 +6,7 @@ import { GameService } from '../services/game.service';
 import { PlayerService } from '../services/player.service';
 import { Game } from '../models/game';
 import { GamePhases } from '../enums/gamephases';
+import { Player } from '../models/player';
 
 @Component({
   selector: 'app-ingame',
@@ -15,6 +16,8 @@ import { GamePhases } from '../enums/gamephases';
 export class IngameComponent implements OnInit, OnDestroy {
   game: Game;
   playerId: string;
+  player: Player;
+  currentLeader: Player;
 
   private gameSub: Subscription;
   private errorMsgSub: Subscription;
@@ -28,9 +31,13 @@ export class IngameComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.gameSub = this.gameService.getThisGame().subscribe( game => this.game = game );
-    this.errorMsgSub = this.gameService.getErrorMessage().subscribe( errorMsg => alert(errorMsg) );
     this.playerId = this.playerService.getPlayerId();
+    this.gameSub = this.gameService.getThisGame().subscribe( game => {
+      this.game = game;
+      this.player = game.players.find(player => player._id === this.playerId);
+      this.currentLeader = game.players[game.currentLeaderIdx];
+    });
+    this.errorMsgSub = this.gameService.getErrorMessage().subscribe( errorMsg => alert(errorMsg) );
 
     window.onbeforeunload = () => this.ngOnDestroy();
   }

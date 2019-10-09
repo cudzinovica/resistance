@@ -1,1 +1,17 @@
-<p>vote works!</p>
+<div>
+  <div>Proposed Team:</div>
+  <div>
+    <div *ngFor="let player of game.currentTeam">{{player.name}}</div>
+  </div>
+</div>
+<div *ngIf="!player.hasVoted; else hasVotedTemplate">
+  <div>Do you approve of this team?</div>
+  <div>
+    <div><button class="select-button" [ngClass]="{'selected': currentVote===true}" (click)="updateVote(true)">Yes</button></div>
+    <div><button class="select-button" [ngClass]="{'selected': currentVote===false}" (click)="updateVote(false)">No</button></div>
+  </div>
+  <div><button (click)="submitVote()">Submit</button></div>
+</div>
+<ng-template #hasVotedTemplate>
+  <div>Waiting for other players to vote</div>
+</ng-template>

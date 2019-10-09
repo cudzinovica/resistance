@@ -14,8 +14,9 @@ import { GamePhases } from 'src/app/enums/gamephases';
 export class GameComponent implements OnInit {
   @Input() game: Game;
   @Input() playerId: string;
+  @Input() player: Player;
+  @Input() currentLeader: Player;
 
-  currentLeader: Player;
   loyalty: string;
   displayLoyalty: boolean;
 
@@ -31,8 +32,6 @@ export class GameComponent implements OnInit {
       this.loyalty = player.loyalty ? 'Good' : 'Evil';
       this.displayLoyalty = true;
     });
-
-    this.currentLeader = this.game.players[this.game.currentLeaderIdx];
   }
 
   /** Ends Game */
