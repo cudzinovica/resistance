@@ -41,11 +41,6 @@ export class IngameComponent implements OnInit, OnDestroy {
     this.errorMsgSub.unsubscribe();
   }
 
-  /** Ends Game */
-  endGame(): void {
-    this.gameService.endGame();
-  }
-
   /** Removes Player from game and routes to home */
   exitGame(): void {
     this.playerService.deletePlayer(this.game._id, this.playerId)

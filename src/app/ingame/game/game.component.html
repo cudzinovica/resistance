@@ -1,0 +1,32 @@
+<div *ngIf="game.phase != gamePhases.Lobby">
+  <button (click)="endGame()">End Game</button>
+</div>
+<div *ngIf="displayLoyalty">You are on team {{loyalty}}</div>
+<div><button (click)="toggleDisplayLoyalty()">
+  <div *ngIf="!displayLoyalty">Show</div>
+  <div *ngIf="displayLoyalty">Hide</div>
+</button></div>
+<div class="mission-results">
+  <div>Mission Results</div>
+  <div class="round-numbers">
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+    <div>5</div>
+  </div>
+  <div class="round-results">
+    <div>{{game.missionResults[0]}}</div>
+    <div>{{game.missionResults[1]}}</div>
+    <div>{{game.missionResults[2]}}</div>
+    <div>{{game.missionResults[3]}}</div>
+    <div>{{game.missionResults[4]}}</div>
+  </div>
+</div>
+<div class="leader">
+  Leader: {{currentLeader.name}}
+</div>
+
+<div *ngIf="game.phase == gamePhases.Selection"><app-selection [game]=game [playerId]=playerId [currentLeader]=currentLeader></app-selection></div>
+<div *ngIf="game.phase == gamePhases.Vote"><app-vote [game]=game [playerId]=playerId></app-vote></div>
+<div *ngIf="game.phase == gamePhases.Quest"><app-quest [game]=game [playerId]=playerId></app-quest></div>
