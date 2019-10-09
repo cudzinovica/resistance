@@ -1,9 +1,7 @@
-import { Team } from '../enums/team';
-
 export class Player {
   _id: string;
   name: string;
-  loyalty: Team;
+  loyalty: boolean;
   character: number;
   currentVote: boolean;
   hasVoted: boolean;

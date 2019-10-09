@@ -1,5 +1,4 @@
 import { GamePhases } from '../enums/gamephases';
-import { Team } from '../enums/team';
 import { Player } from './player';
 
 export class Game {
@@ -11,5 +10,5 @@ export class Game {
   failedVotes: number;
   currentRound: number;
   currentTeam: Player[];
-  winningTeam: Team;
+  winningTeam: boolean;
 }

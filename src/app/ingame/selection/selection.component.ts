@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 import { Game } from '../../models/game';
-import { Team } from '../../enums/team';
+import { Loyalty } from '../../enums/loyalty';
+import { PlayerService } from 'src/app/services/player.service';
 
 @Component({
   selector: 'app-selection',
@@ -11,11 +12,22 @@ import { Team } from '../../enums/team';
 export class SelectionComponent implements OnInit {
   @Input() game: Game;
 
-  private team: Team;
-  private teamDisplay: boolean;
+  loyalty: boolean;
+  displayLoyalty: boolean;
 
-  constructor() { }
+  constructor(
+    private playerService: PlayerService,
+  ) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    const playerId = this.playerService.getPlayerId();
+    this.playerService.getPlayer(this.game._id, playerId).subscribe(player => {
+      this.loyalty = player.loyalty;
+      this.displayLoyalty = true;
+    });
+  }
 
+  toggleDisplayLoyalty() {
+    this.displayLoyalty = !this.displayLoyalty;
+  }
 }

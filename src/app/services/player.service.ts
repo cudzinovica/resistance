@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Socket } from 'ngx-socket-io';
 
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -23,7 +22,6 @@ export class PlayerService {
 
   constructor(
     private http: HttpClient,
-    private socket: Socket
   ) { }
 
   setPlayerId(playerId: string): void {
@@ -37,7 +35,7 @@ export class PlayerService {
   /** POST: add a new player to the server */
   createPlayer(gameId: string, name: string): Observable<Player> {
     const url = `${this.gamesUrl}/${gameId}/${this.playersUrl}`;
-    const body = { 'name': name };
+    const body = { name };
     return this.http.post(url, body, httpOptions).pipe(
       tap((createdPlayer: Player) => this.log(`added player w/ id=${createdPlayer._id}`)),
       catchError(this.handleError<any>('createPlayer'))

@@ -17,7 +17,6 @@ export class IngameComponent implements OnInit, OnDestroy {
 
   private gameSub: Subscription;
   private errorMsgSub: Subscription;
-  private playerIdSub: Subscription;
 
   gamePhases = GamePhases;
 

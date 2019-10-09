@@ -6,7 +6,6 @@ import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 import { Game } from '../models/game';
-import { Player } from '../models/player';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })

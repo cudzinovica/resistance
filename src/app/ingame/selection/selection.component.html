@@ -1,7 +1,7 @@
 <div>
-  <div *ngIf="teamDisplay">You are {{team}}</div>
-  <div><button (click)="toggleTeamDisplay()">
-    <div *ngIf="!teamDisplay">Show</div>
-    <div *ngIf="teamDisplay">Hide</div>
+  <div *ngIf="displayLoyalty">You are on team {{loyalty}}</div>
+  <div><button (click)="toggleDisplayLoyalty()">
+    <div *ngIf="!displayLoyalty">Show</div>
+    <div *ngIf="displayLoyalty">Hide</div>
   </button></div>
 </div>
