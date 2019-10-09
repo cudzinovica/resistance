@@ -9,6 +9,6 @@ export class Game {
   missionResults: boolean[];
   failedVotes: number;
   currentRound: number;
-  currentTeam: Player[];
+  currentTeam: string[];
   winningTeam: boolean;
 }

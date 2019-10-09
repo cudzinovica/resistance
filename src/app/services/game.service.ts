@@ -73,7 +73,7 @@ export class GameService {
   }
 
   submitQuest(quest: boolean): void {
-    this.socket.emit('submit-vote', {quest});
+    this.socket.emit('submit-quest', {quest});
   }
 
   /** POST: add a new game to the server */

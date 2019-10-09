@@ -23,10 +23,13 @@
     <div>{{game.missionResults[4]}}</div>
   </div>
 </div>
+<div class="failed-votes">
+  <div>Failed Votes: {{game.failedVotes}}</div>
+</div>
 <div class="leader">
   Leader: {{currentLeader.name}}
 </div>
 
 <div *ngIf="game.phase == gamePhases.Selection"><app-selection [game]=game [playerId]=playerId [currentLeader]=currentLeader></app-selection></div>
 <div *ngIf="game.phase == gamePhases.Vote"><app-vote [game]=game [playerId]=playerId [player]=player></app-vote></div>
-<div *ngIf="game.phase == gamePhases.Quest"><app-quest [game]=game [playerId]=playerId></app-quest></div>
+<div *ngIf="game.phase == gamePhases.Quest"><app-quest [game]=game [playerId]=playerId [player]=player></app-quest></div>

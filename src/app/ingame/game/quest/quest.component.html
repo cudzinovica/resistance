@@ -1,1 +1,23 @@
-<p>quest works!</p>
+<div>
+  <div>Team:</div>
+  <div>
+    <div *ngFor="let player of this.currentTeamPlayers">{{player.name}}</div>
+  </div>
+</div>
+<div *ngIf="game.currentTeam.includes(playerId); else notOnTeam">
+  <div *ngIf="!player.hasQuested; else hasQuestedTemplate">
+    <div>Choose Mission Outcome:</div>
+    <div>
+      <div><button class="select-button" [ngClass]="{'selected': currentQuest===true}" (click)="updateQuest(true)">Pass</button></div>
+      <div *ngIf="player.loyalty"><button class="select-button" [ngClass]="{'selected': currentQuest===false}" (click)="updateQuest(false)">Pass</button></div>
+      <div *ngIf="!player.loyalty"><button class="select-button" [ngClass]="{'selected': currentQuest===false}" (click)="updateQuest(false)">Fail</button></div>
+    </div>
+    <div><button (click)="submitQuest()">Submit</button></div>
+  </div>
+  <ng-template #hasQuestedTemplate>
+    <div>Waiting for rest of team to quest</div>
+  </ng-template>
+</div>
+<ng-template #notOnTeam>
+  <div>Waiting for team to go on quest</div>
+</ng-template>
