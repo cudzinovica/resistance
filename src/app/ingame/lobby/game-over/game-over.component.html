@@ -1,30 +1,34 @@
-<div>Game Over</div>
-<div>{{winningTeam}} wins!</div>
-<div class="mission-results">
-  <div>Mission Results</div>
-  <div class="round-numbers">
-    <div>1</div>
-    <div>2</div>
-    <div>3</div>
-    <div>4</div>
-    <div>5</div>
+<div class="text-center mt-5 container">
+  <div><h2>Game Over</h2></div>
+  <div><h1>{{winningTeam}} wins!</h1></div>
+
+  <div class="text-center container mt-2">
+    <div>Mission Results</div>
+      <div class="row">
+        <div class="col">1</div>
+        <div class="col">2</div>
+        <div class="col">3</div>
+        <div class="col">4</div>
+        <div class="col">5</div>
+      </div>
+      <div class="row">
+        <div class="col">{{game.missionResults[0]}}</div>
+        <div class="col">{{game.missionResults[1]}}</div>
+        <div class="col">{{game.missionResults[2]}}</div>
+        <div class="col">{{game.missionResults[3]}}</div>
+        <div class="col">{{game.missionResults[4]}}</div>
+      </div>
+    </div>
+
+  <div class="mt-1 row">
+    <div class="col">
+      <div>Good</div>
+      <div *ngFor="let player of goodPlayers">{{player.name}}</div>
+    </div>
+    <div class="col">
+      <div>Evil</div>
+      <div *ngFor="let player of evilPlayers">{{player.name}}</div>
+    </div>
   </div>
-  <div class="round-results">
-    <div>{{game.missionResults[0]}}</div>
-    <div>{{game.missionResults[1]}}</div>
-    <div>{{game.missionResults[2]}}</div>
-    <div>{{game.missionResults[3]}}</div>
-    <div>{{game.missionResults[4]}}</div>
-  </div>
+  <div class="mt-2"><button type="button" class="btn btn-outline-primary" (click)=goToLobby()>Back to Lobby</button></div>
 </div>
-<div class="teams">
-  <div>
-    <div>Good</div>
-    <div *ngFor="let player of goodPlayers">{{player.name}}</div>
-  </div>
-  <div>
-    <div>Evil</div>
-    <div *ngFor="let player of evilPlayers">{{player.name}}</div>
-  </div>
-</div>
-<div><button (click)=goToLobby()>Back to Lobby</button></div>

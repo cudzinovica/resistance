@@ -7,17 +7,17 @@
 <div *ngIf="game.currentTeam.includes(playerId); else notOnTeam">
   <div *ngIf="!player.hasQuested; else hasQuestedTemplate">
     <div>Choose Mission Outcome:</div>
-    <div>
-      <div><button class="select-button" [ngClass]="{'selected': currentQuest===true}" (click)="updateQuest(true)">Pass</button></div>
-      <div *ngIf="player.loyalty"><button class="select-button" [ngClass]="{'selected': currentQuest===false}" (click)="updateQuest(false)">Pass</button></div>
-      <div *ngIf="!player.loyalty"><button class="select-button" [ngClass]="{'selected': currentQuest===false}" (click)="updateQuest(false)">Fail</button></div>
+    <div class="mt-1 row">
+      <div class="col text-center"><button type="button" class="btn" [ngClass]="{'selected': currentQuest===true}" (click)="updateQuest(true)">Pass</button></div>
+      <div *ngIf="player.loyalty" class="col text-center"><button type="button" class="btn" [ngClass]="{'btn-success': currentQuest===false, 'btn-outline-secondary': currentQuest!==false}" (click)="updateQuest(false)">Pass</button></div>
+      <div *ngIf="!player.loyalty" class="col text-center"><button type="button" class="btn" [ngClass]="{'btn-success': currentQuest===false, 'btn-outline-secondary': currentQuest!==false}" (click)="updateQuest(false)">Fail</button></div>
     </div>
-    <div><button (click)="submitQuest()">Submit</button></div>
+    <div class="text-center mt-2"><button type="button" class="btn btn-outline-primary" (click)="submitQuest()">Submit</button></div>
   </div>
   <ng-template #hasQuestedTemplate>
-    <div>Waiting for rest of team to quest</div>
+    <div class="mt-2">Waiting for rest of team to quest</div>
   </ng-template>
 </div>
 <ng-template #notOnTeam>
-  <div>Waiting for team to go on quest</div>
+  <div class="mt-2">Waiting for team to go on quest</div>
 </ng-template>

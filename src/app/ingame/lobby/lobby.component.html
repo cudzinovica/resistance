@@ -1,21 +1,22 @@
-<div *ngIf="!displayGameOver; else gameOverTemplate">
-  <div style="text-align:center">
-      <h1>
-        Lobby
-      </h1>
-    </div>
+<div *ngIf="!displayGameOver; else gameOverTemplate" class="text-center">
+  <div class="text-right mr-2"><button type="button" class="btn btn-outline-primary" (click)="exitGame()">Exit Game</button></div>
+  <div>
+    <h1>
+      Lobby
+    </h1>
+  </div>
 
-    <ul class="players">
-      <li *ngFor="let player of game.players">
-        {{player.name}}
-      </li>
-    </ul>
-
-    <div>
-      <button class="start" title="Start Game"
-        (click)="startGame()">Start Game</button>
+  <div class="mx-5 text-left">
+    <div *ngFor="let player of game.players">
+      {{player.name}}
     </div>
+  </div>
+
+  <div>
+    <button type="button" class="btn btn-outline-primary" (click)="startGame()">Start Game</button>
+  </div>
 </div>
+
 <ng-template #gameOverTemplate>
   <app-game-over [game]=game (displayGameOverChange)="changeDisplayGameOver($event)"></app-game-over>
 </ng-template>

@@ -1,17 +1,19 @@
-<div class="container text-center">
+<div class="container jumbotron text-center mt-5">
   <div>
     <h1>
       Welcome to The Resistance!
     </h1>
   </div>
-  <input placeholder="Enter Name" #playerName />
-  <div>
-    <button class="create" title="Create Game"
-      (click)="createGame(playerName.value);">Create Game</button>
+  <div class="mt-3 mx-5">
+    <input type="text" class="form-control" placeholder="Enter Name" #playerName />
   </div>
-  <div>
-    <input placeholder="Enter Game ID" #gameId />
-    <button class="join" title="Join Game"
-      (click)="joinGame(gameId.value, playerName.value);">Join Game</button>
+  <div class="mt-3">
+    <button type="button" class="btn btn-outline-primary" (click)="createGame(playerName.value);">Create Game</button>
+  </div>
+  <div class="mt-3 mx-5">
+    <input type="text" class="form-control" placeholder="Enter Game ID" #gameId />
+  </div>
+  <div class="mt-3">
+    <button type="button" class="btn btn-outline-primary" (click)="joinGame(gameId.value, playerName.value);">Join Game</button>
   </div>
 </div>

@@ -48,22 +48,6 @@ export class IngameComponent implements OnInit, OnDestroy {
     this.errorMsgSub.unsubscribe();
   }
 
-  /** Removes Player from game and routes to home */
-  exitGame(): void {
-    this.playerService.deletePlayer(this.game._id, this.playerId)
-      .subscribe(_ => {
-        this.gameService.leaveGame();
-
-        this.gameService.getGame(this.game._id)
-          .subscribe(game => {
-            if (game.players.length === 0) {
-              this.gameService.deleteGame(this.game._id).subscribe();
-            }
-            this.router.navigate(['']);
-          });
-      });
-  }
-
   changePlayerId($event: string): void {
     this.playerId = $event;
   }
