@@ -34,14 +34,14 @@ export class LobbyComponent implements OnInit {
 
   /** Removes Player from game and routes to home */
   exitGame(): void {
-    this.playerService.deletePlayer(this.game._id, this.playerId)
+    this.playerService.deletePlayer(this.game.roomCode, this.playerId)
       .subscribe(_ => {
         this.gameService.leaveGame();
 
-        this.gameService.getGame(this.game._id)
+        this.gameService.getGame(this.game.roomCode)
           .subscribe(game => {
             if (game.players.length === 0) {
-              this.gameService.deleteGame(this.game._id).subscribe();
+              this.gameService.deleteGame(this.game.roomCode).subscribe();
             }
             this.router.navigate(['']);
           });

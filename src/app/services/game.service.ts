@@ -40,7 +40,7 @@ export class GameService {
 
   getThisGame(): Observable<Game> {
     return this.game.pipe(
-      tap((game: Game) => this.log(`got game from socket w/ id=${game._id}`))
+      tap((game: Game) => this.log(`got game from socket w/ id=${game.roomCode}`))
     );
   }
 
@@ -50,8 +50,8 @@ export class GameService {
     );
   }
 
-  joinGame(gameId: string, playerId: string): void {
-    this.socket.emit('join-game', {gameId, playerId});
+  joinGame(roomCode: string, playerId: string): void {
+    this.socket.emit('join-game', {roomCode, playerId});
   }
 
   leaveGame(): void {
@@ -81,7 +81,7 @@ export class GameService {
   /** POST: add a new game to the server */
   createGame(): Observable<Game> {
     return this.http.post(this.gamesUrl, null).pipe(
-      tap((createdGame: Game) => this.log(`added game w/ id=${createdGame._id}`)),
+      tap((createdGame: Game) => this.log(`added game w/ id=${createdGame.roomCode}`)),
       catchError(this.handleError<any>('createGame'))
     );
   }
@@ -108,17 +108,17 @@ export class GameService {
 
   /** PUT: update the game on the server */
   updateGame(game: Game): Observable<any> {
-    const id = game._id;
+    const id = game.roomCode;
     const url = `${this.gamesUrl}/${id}`;
     return this.http.put(url, game, httpOptions).pipe(
-      tap(_ => this.log(`updated game id=${game._id}`)),
+      tap(_ => this.log(`updated game id=${game.roomCode}`)),
       catchError(this.handleError<any>('updateGame'))
     );
   }
 
   /** DELETE: delete the game from the server */
   deleteGame(game: Game | string): Observable<Game> {
-    const id = typeof game === 'string' ? game : game._id;
+    const id = typeof game === 'string' ? game : game.roomCode;
     const url = `${this.gamesUrl}/${id}`;
 
     return this.http.delete<Game>(url, httpOptions).pipe(

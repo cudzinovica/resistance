@@ -19,22 +19,22 @@ export class HomeComponent {
   createGame(playerName: string): void {
     this.gameService.createGame()
       .subscribe(createdGame => {
-        this.joinGame(createdGame._id, playerName);
+        this.joinGame(createdGame.roomCode, playerName);
       });
   }
 
-  joinGame(gameId: string, playerName: string): void {
+  joinGame(roomCode: string, playerName: string): void {
     playerName = playerName.trim();
     if (!playerName) { return; }
 
     this.gameService.connect();
 
-    this.playerService.createPlayer(gameId, playerName).subscribe(createdPlayer => {
+    this.playerService.createPlayer(roomCode, playerName).subscribe(createdPlayer => {
       this.playerService.setPlayerId(createdPlayer._id);
 
-      this.gameService.joinGame(gameId, createdPlayer._id);
+      this.gameService.joinGame(roomCode, createdPlayer._id);
 
-      this.router.navigate(['/game', gameId]);
+      this.router.navigate(['/game', roomCode]);
     });
   }
 }

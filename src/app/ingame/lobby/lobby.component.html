@@ -6,13 +6,21 @@
     </h1>
   </div>
 
-  <div class="mx-5 text-left">
-    <div *ngFor="let player of game.players">
-      {{player.name}}
+  <div class="mt-3">
+    <h5>Game Code: {{game.roomCode}}</h5>
+  </div>
+
+  <div class="mt-3">
+    <h6>Players:</h6>
+    <div class="mx-5 text-left">
+      <div *ngFor="let player of game.players">
+        {{player.name}}
+      </div>
     </div>
   </div>
 
-  <div>
+
+  <div class="mt-3">
     <button type="button" class="btn btn-outline-primary" (click)="startGame()">Start Game</button>
   </div>
 </div>

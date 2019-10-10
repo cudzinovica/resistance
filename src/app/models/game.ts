@@ -3,6 +3,7 @@ import { Player } from './player';
 
 export class Game {
   _id: string;
+  roomCode: string;
   phase: GamePhases;
   players: Player[];
   currentLeaderIdx: number;

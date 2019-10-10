@@ -30,7 +30,7 @@ export class GameComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.playerService.getPlayer(this.game._id, this.playerId).subscribe(player => {
+    this.playerService.getPlayer(this.game.roomCode, this.playerId).subscribe(player => {
       this.loyalty = player.loyalty ? 'Good' : 'Evil';
       this.displayLoyalty = true;
     });
