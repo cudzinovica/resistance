@@ -17,10 +17,12 @@ export class GameComponent implements OnInit {
   @Input() player: Player;
   @Input() currentLeader: Player;
 
+  gamePhases = GamePhases;
+
   loyalty: string;
   displayLoyalty: boolean;
 
-  gamePhases = GamePhases;
+  fellowTraitors: Player[];
 
   constructor(
     private gameService: GameService,
@@ -32,10 +34,18 @@ export class GameComponent implements OnInit {
       this.loyalty = player.loyalty ? 'Good' : 'Evil';
       this.displayLoyalty = true;
     });
+    this.gameService.displayGameOver = true;
+    this.fellowTraitors = [];
+    this.game.players.forEach(player => {
+      if (!player.loyalty && player._id !== this.playerId) {
+        this.fellowTraitors.push(player);
+      }
+    });
   }
 
   /** Ends Game */
   endGame(): void {
+    this.gameService.displayGameOver = false;
     this.gameService.endGame();
   }
 

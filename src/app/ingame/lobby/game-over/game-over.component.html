@@ -1,0 +1,30 @@
+<div>Game Over</div>
+<div>{{winningTeam}} wins!</div>
+<div class="mission-results">
+  <div>Mission Results</div>
+  <div class="round-numbers">
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+    <div>5</div>
+  </div>
+  <div class="round-results">
+    <div>{{game.missionResults[0]}}</div>
+    <div>{{game.missionResults[1]}}</div>
+    <div>{{game.missionResults[2]}}</div>
+    <div>{{game.missionResults[3]}}</div>
+    <div>{{game.missionResults[4]}}</div>
+  </div>
+</div>
+<div class="teams">
+  <div>
+    <div>Good</div>
+    <div *ngFor="let player of goodPlayers">{{player.name}}</div>
+  </div>
+  <div>
+    <div>Evil</div>
+    <div *ngFor="let player of evilPlayers">{{player.name}}</div>
+  </div>
+</div>
+<div><button (click)=goToLobby()>Back to Lobby</button></div>

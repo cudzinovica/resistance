@@ -1,14 +1,3 @@
-div.mission-results {
-  display: flex;
-  flex-flow: column nowrap;
-}
-
-div.mission-results > div {
-  display: flex;
-  flex-flow: row nowrap;
-  margin-right: 1em;
-}
-
 button.select-button.selected {
   background: green;
 }

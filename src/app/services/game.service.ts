@@ -21,6 +21,8 @@ export class GameService {
   private game: Observable<Game> = this.socket.fromEvent<Game>('game');
   private errorMsg: Observable<string> = this.socket.fromEvent<string>('error_msg');
 
+  displayGameOver: boolean;
+
   constructor(
     private http: HttpClient,
     private socket: Socket

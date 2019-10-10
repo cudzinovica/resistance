@@ -6,6 +6,10 @@
   <div *ngIf="!displayLoyalty">Show</div>
   <div *ngIf="displayLoyalty">Hide</div>
 </button></div>
+<div *ngIf="!player.loyalty">
+  <div>Fellow Traitors</div>
+  <div *ngFor="let player of fellowTraitors">{{player.name}}</div>
+</div>
 <div class="mission-results">
   <div>Mission Results</div>
   <div class="round-numbers">

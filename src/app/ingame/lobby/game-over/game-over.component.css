@@ -8,3 +8,8 @@ div.mission-results > div {
   flex-flow: row nowrap;
   margin-right: 1em;
 }
+
+div.teams {
+  display: flex;
+  flex-flow: row nowrap;
+}

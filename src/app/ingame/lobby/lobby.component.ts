@@ -12,15 +12,22 @@ import { Game } from '../../models/game';
 export class LobbyComponent implements OnInit {
   @Input() game: Game;
 
+  displayGameOver: boolean;
+
   constructor(
     private gameService: GameService,
   ) {}
 
   ngOnInit() {
+    this.displayGameOver = this.gameService.displayGameOver;
   }
 
-  /** Sets game to in progress **/
+  /** Sets game to in progress */
   startGame(): void {
     this.gameService.startGame();
+  }
+
+  changeDisplayGameOver($event: boolean): void {
+    this.displayGameOver = $event;
   }
 }
