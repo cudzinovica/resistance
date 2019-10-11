@@ -17,7 +17,7 @@
   </div>
 
   <div class="text-center container mt-2">
-    <div>Mission Results</div>
+    <div>Quest Results</div>
     <div class="row">
       <div class="col">1</div>
       <div class="col">2</div>
@@ -34,8 +34,13 @@
     </div>
   </div>
 
+  <div *ngIf="game.currentRound > 0 && game.phase === gamePhases.Selection" class="mt-2">
+    <div>Previous Round's Quest Results:</div>
+    <div>{{previousPasses}} Passes, {{previousFails}} Fails</div>
+  </div>
+
   <div class="mt-2">
-    <div>Current Round: {{game.currentRound}}</div>
+    <div>Current Round: {{game.currentRound + 1}}</div>
   </div>
 
   <div class="mt-2">

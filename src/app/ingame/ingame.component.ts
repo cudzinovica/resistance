@@ -19,6 +19,9 @@ export class IngameComponent implements OnInit, OnDestroy {
   player: Player;
   currentLeader: Player;
 
+  previousPasses: number;
+  previousFails: number;
+
   private gameSub: Subscription;
   private errorMsgSub: Subscription;
 
@@ -36,6 +39,18 @@ export class IngameComponent implements OnInit, OnDestroy {
       this.game = game;
       this.player = game.players.find(player => player._id === this.playerId);
       this.currentLeader = game.players[game.currentLeaderIdx];
+      if (game.currentRound > 0) {
+        this.previousPasses = 0;
+        this.previousFails = 0;
+        game.currentTeam.forEach(playerId => {
+          const player = game.players.find(p => p._id === playerId);
+          if (player.currentQuest) {
+            this.previousPasses++;
+          } else {
+            this.previousFails++;
+          }
+        });
+      }
     });
     this.errorMsgSub = this.gameService.getErrorMessage().subscribe( errorMsg => alert(errorMsg) );
 

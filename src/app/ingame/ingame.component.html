@@ -1,6 +1,6 @@
 <div *ngIf="game; else joinGame" class="mt-2">
   <div *ngIf="game.phase == gamePhases.Lobby; else gameTemplate"><app-lobby [game]=game [playerId]=playerId></app-lobby></div>
-  <ng-template #gameTemplate><app-game [game]=game [playerId]=playerId [player]=player [currentLeader]=currentLeader></app-game></ng-template>
+  <ng-template #gameTemplate><app-game [game]=game [playerId]=playerId [player]=player [currentLeader]=currentLeader [previousPasses]=previousPasses [previousFails]=previousFails></app-game></ng-template>
 </div>
 
 <ng-template #joinGame>
