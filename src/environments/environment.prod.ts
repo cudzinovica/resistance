@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  resistanceApiUri: 'http://resistance-game-api.herokuapp.com'
+  resistanceApiUri: 'https://resistance-game-api.herokuapp.com'
 };
