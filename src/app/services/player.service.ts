@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { Player } from '../models/player';
+import { config } from 'config';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -14,7 +15,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class PlayerService {
-  private baseUrl = 'http://localhost:3000';
+  private baseUrl = config.productionHost;
   private gamesUrl = this.baseUrl + '/api/games';
   private playersUrl = 'players';
 

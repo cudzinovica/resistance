@@ -15,8 +15,9 @@ import { VoteComponent } from './ingame/game/vote/vote.component';
 import { QuestComponent } from './ingame/game/quest/quest.component';
 import { GameComponent } from './ingame/game/game.component';
 import { GameOverComponent } from './ingame/lobby/game-over/game-over.component';
+import { config } from 'config';
 
-const config: SocketIoConfig = { url: 'http://localhost:4000', options: {} };
+const socketIoConfig: SocketIoConfig = { url: config.productionHost, options: {} };
 
 @NgModule({
   declarations: [
@@ -35,7 +36,7 @@ const config: SocketIoConfig = { url: 'http://localhost:4000', options: {} };
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    SocketIoModule.forRoot(config),
+    SocketIoModule.forRoot(socketIoConfig),
     NgbModule,
   ],
   providers: [],
