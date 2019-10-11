@@ -15,9 +15,9 @@ import { VoteComponent } from './ingame/game/vote/vote.component';
 import { QuestComponent } from './ingame/game/quest/quest.component';
 import { GameComponent } from './ingame/game/game.component';
 import { GameOverComponent } from './ingame/lobby/game-over/game-over.component';
-import { config } from 'config';
+import { environment } from 'src/environments/environment';
 
-const socketIoConfig: SocketIoConfig = { url: config.productionHost, options: {} };
+const socketIoConfig: SocketIoConfig = { url: environment.resistanceApiUri, options: {} };
 
 @NgModule({
   declarations: [

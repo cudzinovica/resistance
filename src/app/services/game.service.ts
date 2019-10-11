@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 import { Game } from '../models/game';
-import { config } from 'config';
+import { environment } from 'src/environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -16,7 +16,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class GameService {
-  private baseUrl = config.productionHost;
+  private baseUrl = environment.resistanceApiUri;
   private gamesUrl = this.baseUrl + '/api/games';
 
   private game: Observable<Game> = this.socket.fromEvent<Game>('game');
