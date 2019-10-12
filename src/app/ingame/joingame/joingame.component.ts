@@ -29,7 +29,11 @@ export class JoingameComponent implements OnInit {
 
   joinGame(playerName: string): void {
     playerName = playerName.trim();
-    if (!playerName) { return; }
+    playerName = playerName.trim();
+    if (!playerName) {
+      alert('Enter your name!');
+      return;
+    }
 
     this.playerService.createPlayer(this.gameId, playerName).subscribe(createdPlayer => {
       this.playerService.setPlayerId(createdPlayer._id);

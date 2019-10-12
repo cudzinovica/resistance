@@ -17,6 +17,11 @@ export class HomeComponent {
   ) {}
 
   createGame(playerName: string): void {
+    playerName = playerName.trim();
+    if (!playerName) {
+      alert('Enter your name!');
+      return;
+    }
     this.gameService.createGame()
       .subscribe(createdGame => {
         this.joinGame(createdGame.roomCode, playerName);
@@ -25,7 +30,14 @@ export class HomeComponent {
 
   joinGame(roomCode: string, playerName: string): void {
     playerName = playerName.trim();
-    if (!playerName) { return; }
+    if (!playerName) {
+      alert('Enter your name!');
+      return;
+    }
+    if (!roomCode) {
+      alert('Enter room code!');
+      return;
+    }
 
     this.gameService.connect();
 
