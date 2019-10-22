@@ -1,9 +1,3 @@
-<div>
-  <div>Team:</div>
-  <div>
-    <div *ngFor="let player of this.currentTeamPlayers">{{player.name}}</div>
-  </div>
-</div>
 <div *ngIf="game.currentTeam.includes(playerId); else notOnTeam">
   <div *ngIf="!player.hasQuested; else hasQuestedTemplate">
     <div>Choose Mission Outcome:</div>

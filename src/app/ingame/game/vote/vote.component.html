@@ -1,9 +1,3 @@
-<div>
-  <div>Proposed Team:</div>
-  <div>
-    <div *ngFor="let player of currentTeamPlayers">{{player.name}}</div>
-  </div>
-</div>
 <div *ngIf="!player.hasVoted; else hasVotedTemplate" class="mt2">
   <div>Do you approve of this team?</div>
   <div class="mt-1 row">

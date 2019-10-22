@@ -1,14 +1,13 @@
 <div class="mx-1">
-  <div *ngIf="game.phase != gamePhases.Lobby">
+  <!-- end game button -->
+  <div class="text-right">
     <button type="button" class="btn btn-outline-primary" (click)="endGame()">End Game</button>
   </div>
+
+  <!-- loyalty -->
   <div class="row mt-3">
     <div *ngIf="displayLoyalty" class="col">
       <div>You are on team {{loyalty}}</div>
-      <div *ngIf="!player.loyalty" class="mt-2">
-        <div>Fellow Traitors</div>
-        <div *ngFor="let player of fellowTraitors">{{player.name}}</div>
-      </div>
     </div>
     <div class="col text-right"><button type="button" class="btn btn-outline-primary" (click)="toggleDisplayLoyalty()">
       <div *ngIf="!displayLoyalty">Show</div>
@@ -16,48 +15,56 @@
     </button></div>
   </div>
 
+  <!-- quest results -->
   <div class="text-center mt-2">
     <div>Quest Results</div>
     <div class="row">
-      <div class="col">1</div>
-      <div class="col">2</div>
-      <div class="col">3</div>
-      <div class="col">4</div>
-      <div class="col">5</div>
+      <div *ngFor="let number of [0,1,2,3,4]" class="col">
+        <div *ngIf="number == 3 && game.players.length >= 7" class="small">Two fails required</div>
+      </div>
+    </div>
+    <div class="row" [ngClass]="{'mb-3': game.missionResults.length === 0}">
+      <div *ngFor="let number of [0,1,2,3,4]" class="col">
+        <div>Round {{number+1}}{{game.currentRound === number ? "*" : ""}}</div>
+      </div>
     </div>
     <div class="row">
-      <div class="col">{{game.missionResults[0] === undefined ? " " : game.missionResults[0] ? "S" : "F"}}</div>
-      <div class="col">{{game.missionResults[1] === undefined ? " " : game.missionResults[1] ? "S" : "F"}}</div>
-      <div class="col">{{game.missionResults[2] === undefined ? " " : game.missionResults[2] ? "S" : "F"}}</div>
-      <div class="col">{{game.missionResults[3] === undefined ? " " : game.missionResults[3] ? "S" : "F"}}</div>
-      <div class="col">{{game.missionResults[4] === undefined ? " " : game.missionResults[4] ? "S" : "F"}}</div>
+      <div *ngFor="let number of [0,1,2,3,4]" class="col">{{game.missionResults[number] === undefined ? " " : game.missionResults[number] ? "S" : "F"}}</div>
     </div>
   </div>
 
+  <!-- failed vote counter -->
+  <div class="mt-2">
+    <div>Failed Votes: {{game.failedVotes}} (Evil wins at 5)</div>
+  </div>
+
+  <!-- previous phase results -->
   <div *ngIf="game.currentRound > 0 && game.phase === gamePhases.Selection" class="mt-2">
     <div>Previous Round's Quest Results:</div>
     <div>{{previousPasses}} Passes, {{previousFails}} Fails</div>
   </div>
 
-  <div class="mt-2">
-    <div>Current Round: {{game.currentRound + 1}}</div>
-  </div>
 
-  <div class="mt-2">
-    <div>Failed Votes: {{game.failedVotes}}</div>
-  </div>
-
-  <div *ngIf="game.phase === gamePhases.Quest" class="mt-2">
-    <div>Vote Results:</div>
-    <div class="mt-1 d-flex flex-wrap">
-      <div *ngFor="let player of game.players" class="w-50">
-        <div>{{player.name}}: {{player.currentVote ? "Yes" : "No"}}</div>
+  <div *ngIf="game.phase == gamePhases.Vote || game.phase == gamePhases.Quest" class="mt-2">
+    <div>Proposed Team</div>
+    <div class="d-flex flex-row flex-wrap mt-1">
+      <div *ngFor="let player of currentTeamPlayers" class="w-50 row">
+        <div class="col">{{player.name}}</div>
+        <div *ngIf="game.phase === gamePhases.Quest && player.hasQuested" class="col small">Q</div>
       </div>
     </div>
   </div>
 
+  <!-- player list -->
   <div class="mt-2">
-    Leader: {{currentLeader.name}}
+    <div>Players</div>
+    <div class="mt-1 d-flex flex-row flex-wrap">
+      <div *ngFor="let player of game.players" class="w-50 row">
+        <div class="col">{{player.name}}</div>
+        <div *ngIf="player._id === currentLeader._id" class="col small">L</div>
+        <div *ngIf="game.currentTeam.includes(player._id)" class="col small">T</div>
+      </div>
+    </div>
   </div>
 
   <div *ngIf="game.phase == gamePhases.Selection"><app-selection [game]=game [playerId]=playerId [currentLeader]=currentLeader></app-selection></div>

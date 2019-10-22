@@ -1,4 +1,3 @@
-import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
@@ -19,6 +18,7 @@ export class IngameComponent implements OnInit, OnDestroy {
   player: Player;
   currentLeader: Player;
 
+  currentTeamPlayers: Player[];
   previousPasses: number;
   previousFails: number;
 
@@ -30,7 +30,6 @@ export class IngameComponent implements OnInit, OnDestroy {
   constructor(
     private gameService: GameService,
     private playerService: PlayerService,
-    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -39,18 +38,18 @@ export class IngameComponent implements OnInit, OnDestroy {
       this.game = game;
       this.player = game.players.find(player => player._id === this.playerId);
       this.currentLeader = game.players[game.currentLeaderIdx];
-      if (game.currentRound > 0) {
-        this.previousPasses = 0;
-        this.previousFails = 0;
-        game.currentTeam.forEach(playerId => {
-          const player = game.players.find(p => p._id === playerId);
-          if (player.currentQuest) {
-            this.previousPasses++;
-          } else {
-            this.previousFails++;
-          }
-        });
-      }
+      this.previousPasses = 0;
+      this.previousFails = 0;
+      this.currentTeamPlayers = [];
+      game.currentTeam.forEach(playerId => {
+        const player = game.players.find(p => p._id === playerId);
+        this.currentTeamPlayers.push(player);
+        if (player.currentQuest) {
+          this.previousPasses++;
+        } else {
+          this.previousFails++;
+        }
+      });
     });
     this.errorMsgSub = this.gameService.getErrorMessage().subscribe( errorMsg => alert(errorMsg) );
 

@@ -12,8 +12,7 @@ export class QuestComponent implements OnInit {
   @Input() game: Game;
   @Input() playerId: string;
   @Input() player: Player;
-
-  currentTeamPlayers: Player[];
+  @Input() currentTeamPlayers: Player[];
 
   currentQuest: boolean;
 
@@ -22,7 +21,6 @@ export class QuestComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.currentTeamPlayers = this.game.currentTeam.map(playerId => this.game.players.find(player => player._id === playerId));
   }
 
   updateQuest(quest: boolean) {

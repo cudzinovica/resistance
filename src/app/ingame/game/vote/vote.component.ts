@@ -13,8 +13,6 @@ export class VoteComponent implements OnInit {
   @Input() playerId: string;
   @Input() player: Player;
 
-  currentTeamPlayers: Player[];
-
   currentVote: boolean;
 
   constructor(
@@ -22,7 +20,6 @@ export class VoteComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.currentTeamPlayers = this.game.currentTeam.map(playerId => this.game.players.find(player => player._id === playerId));
   }
 
   updateVote(vote: boolean) {

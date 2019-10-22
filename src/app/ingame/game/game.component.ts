@@ -18,6 +18,7 @@ export class GameComponent implements OnInit {
   @Input() currentLeader: Player;
   @Input() previousPasses: number;
   @Input() previousFails: number;
+  @Input() currentTeamPlayers: Player[];
 
   gamePhases = GamePhases;
 
