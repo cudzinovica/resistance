@@ -10,6 +10,9 @@ import { PlayerService } from '../services/player.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
+  creatingGame: boolean;
+  joiningGame: boolean;
+
   constructor(
     private gameService: GameService,
     private playerService: PlayerService,

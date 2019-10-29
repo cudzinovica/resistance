@@ -4,16 +4,47 @@
       Welcome to The Resistance!
     </h1>
   </div>
-  <div class="mt-3 mx-5">
-    <input type="text" class="form-control" placeholder="Enter Name" autocorrect="off" #playerName />
+
+  <div *ngIf="!creatingGame && !joiningGame">
+    <div class="mt-3">
+      <div class="d-inline mx-1">
+        <button type="button" class="btn btn-outline-primary" (click)="creatingGame=true">New Game</button>
+      </div>
+      <div class="d-inline mx-1">
+        <button type="button" class="btn btn-outline-primary" (click)="joiningGame=true">Join Game</button>
+      </div>
+    </div>
   </div>
-  <div class="mt-3">
-    <button type="button" class="btn btn-outline-primary" (click)="createGame(playerName.value);">Create Game</button>
+
+  <div *ngIf="creatingGame">
+    <div class="mt-3 mx-5">
+      <input type="text" class="form-control" placeholder="Enter Name" autocorrect="off" #playerName />
+    </div>
+    <div class="mt-3">
+      <div class="d-inline mx-1">
+        <button type="button" class="btn btn-outline-primary" (click)="createGame(playerName.value)">Create</button>
+      </div>
+      <div class="d-inline mx-1">
+        <button type="button" class="btn btn-outline-primary" (click)="creatingGame=false">Back</button>
+      </div>
+    </div>
   </div>
-  <div class="mt-3 mx-5">
-    <input type="text" class="form-control" placeholder="Enter Room Code" autocorrect="off" autocapitalize="none" #gameId />
+
+  <div *ngIf="joiningGame">
+    <div class="mt-3 mx-5">
+      <input type="text" class="form-control" placeholder="Enter Room Code" autocorrect="off" autocapitalize="none" #gameId />
+    </div>
+    <div class="mt-3 mx-5">
+      <input type="text" class="form-control" placeholder="Enter Name" autocorrect="off" #playerName />
+    </div>
+    <div class="mt-3">
+      <div class="d-inline mx-1">
+        <button type="button" class="btn btn-outline-primary" (click)="joinGame(gameId.value, playerName.value)">Join</button>
+      </div>
+      <div class="d-inline mx-1">
+        <button type="button" class="btn btn-outline-primary" (click)="joiningGame=false">Back</button>
+      </div>
+    </div>
   </div>
-  <div class="mt-3">
-    <button type="button" class="btn btn-outline-primary" (click)="joinGame(gameId.value, playerName.value);">Join Game</button>
-  </div>
+
 </div>
