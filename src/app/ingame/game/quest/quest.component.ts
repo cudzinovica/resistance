@@ -12,7 +12,6 @@ export class QuestComponent implements OnInit {
   @Input() game: Game;
   @Input() playerId: string;
   @Input() player: Player;
-  @Input() currentTeamPlayers: Player[];
 
   currentQuest: boolean;
 

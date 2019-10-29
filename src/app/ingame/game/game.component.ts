@@ -5,6 +5,7 @@ import { Player } from 'src/app/models/player';
 import { GameService } from 'src/app/services/game.service';
 import { PlayerService } from 'src/app/services/player.service';
 import { GamePhases } from 'src/app/enums/gamephases';
+import { PhaseChangeStatuses } from 'src/app/enums/phaseChangeStatuses';
 
 @Component({
   selector: 'app-game',
@@ -19,8 +20,10 @@ export class GameComponent implements OnInit {
   @Input() previousPasses: number;
   @Input() previousFails: number;
   @Input() currentTeamPlayers: Player[];
+  @Input() phaseChangeStatus: number;
 
   gamePhases = GamePhases;
+  phaseChangeStatuses = PhaseChangeStatuses;
 
   loyalty: string;
   displayLoyalty: boolean;

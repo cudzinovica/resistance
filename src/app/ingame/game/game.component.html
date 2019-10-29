@@ -39,21 +39,41 @@
   </div>
 
   <!-- previous phase results -->
-  <div *ngIf="game.currentRound > 0 && game.phase === gamePhases.Selection" class="mt-2">
+  <ngb-alert *ngIf="phaseChangeStatus === phaseChangeStatuses.LobbyToSelection" (close)="phaseChangeStatus = null" class="mt-2">
+    <div>Game has started</div>
+  </ngb-alert>
+
+  <ngb-alert *ngIf="phaseChangeStatus === phaseChangeStatuses.QuestToSelection" (close)="phaseChangeStatus = null" class="mt-2">
     <div>Previous Round's Quest Results:</div>
     <div>{{previousPasses}} Passes, {{previousFails}} Fails</div>
-  </div>
+  </ngb-alert>
 
+  <ngb-alert *ngIf="phaseChangeStatus === phaseChangeStatuses.VoteToSelection || phaseChangeStatus === phaseChangeStatuses.VoteToQuest" (close)="phaseChangeStatus = null" class="mt-2">
+    <div *ngIf="phaseChangeStatus === phaseChangeStatuses.VoteToSelection">Vote did not pass</div>
+    <div *ngIf="phaseChangeStatus === phaseChangeStatuses.VoteToQuest">Vote passed</div>
+    <div class="mt-1">
+      <div>Vote breakdown</div>
+      <div class="d-flex flex-row flex-wrap mt-1">
+        <div *ngFor="let player of currentTeamPlayers" class="w-50">
+          <div class="col d-flex flex-row justify-content-between mx-2">
+            <div>{{player.name}}</div>
+            <div *ngIf="player.currentVote">Y</div>
+            <div *ngIf="!player.currentVote">N</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ngb-alert>
 
-  <div *ngIf="game.phase == gamePhases.Vote || game.phase == gamePhases.Quest" class="mt-2">
+  <ngb-alert *ngIf="phaseChangeStatus === phaseChangeStatuses.SelectionToVote" (close)="phaseChangeStatus = null" class="mt-2">
     <div>Proposed Team</div>
     <div class="d-flex flex-row flex-wrap mt-1">
-      <div *ngFor="let player of currentTeamPlayers" class="w-50 row">
+      <div *ngFor="let player of currentTeamPlayers" class="w-50">
         <div class="col">{{player.name}}</div>
         <div *ngIf="game.phase === gamePhases.Quest && player.hasQuested" class="col small">Q</div>
       </div>
     </div>
-  </div>
+  </ngb-alert>
 
   <!-- player list -->
   <div class="mt-2">
