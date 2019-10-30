@@ -18,18 +18,26 @@ export class PlayerService {
   private gamesUrl = this.baseUrl + '/api/games';
   private playersUrl = 'players';
 
-  private playerId: string;
+  private playerIdKey = 'player-id';
 
   constructor(
     private http: HttpClient,
   ) { }
 
   setPlayerId(playerId: string): void {
-    this.playerId = playerId;
+    console.log(`set playerid: ${playerId}`);
+    localStorage.setItem(this.playerIdKey, playerId);
   }
 
   getPlayerId(): string {
-    return this.playerId;
+    const playerId = localStorage.getItem(this.playerIdKey);
+    console.log(`get playerid: ${playerId}`);
+    return playerId;
+  }
+
+  removePlayerId(): void {
+    console.log(`removed playerid`);
+    localStorage.removeItem(this.playerIdKey);
   }
 
   /** POST: add a new player to the server */

@@ -7,7 +7,7 @@ import { Game } from '../models/game';
 import { GamePhases } from '../enums/gamephases';
 import { Player } from '../models/player';
 import { PhaseChangeStatuses } from '../enums/phaseChangeStatuses';
-import { debounceTime } from 'rxjs/operators';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-ingame',
@@ -19,6 +19,7 @@ export class IngameComponent implements OnInit, OnDestroy {
   playerId: string;
   player: Player;
   currentLeader: Player;
+  gameId: string;
 
   currentTeamPlayers: Player[];
   previousPasses: number;
@@ -32,9 +33,13 @@ export class IngameComponent implements OnInit, OnDestroy {
   private _phaseChange = new Subject<number>();
   phaseChangeStatus: number;
 
+  showJoinGame: boolean;
+
   constructor(
     private gameService: GameService,
     private playerService: PlayerService,
+    private route: ActivatedRoute,
+    private router: Router,
   ) { }
 
   generatePrevRoundMessage(newGame: Game) {
@@ -64,7 +69,9 @@ export class IngameComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.playerId = this.playerService.getPlayerId();
+
     this._phaseChange.subscribe(phaseChangeStatus => this.phaseChangeStatus = phaseChangeStatus);
+
     this.gameSub = this.gameService.getThisGame().subscribe( newGame => {
       if (this.game) {
         this.generatePrevRoundMessage(newGame);
@@ -88,6 +95,25 @@ export class IngameComponent implements OnInit, OnDestroy {
     });
     this.errorMsgSub = this.gameService.getErrorMessage().subscribe( errorMsg => alert(errorMsg) );
 
+    this.route.paramMap.subscribe(params => {
+      if (!this.gameService.isConnected()) {
+        this.gameId = params.get('gameId');
+        this.gameService.getGame(this.gameId).subscribe(game => {
+          if (!game) {
+            alert(`Game with room code ${this.gameId} does not exist`);
+            this.router.navigate(['']);
+          } else if (!this.playerId) {
+            this.showJoinGame = true;
+          } else if (!game.players.find(player => player._id === this.playerId)) {
+            this.showJoinGame = true;
+          } else {
+            this.gameService.connect();
+            this.gameService.joinGame(this.gameId, this.playerId);
+          }
+        });
+      }
+    });
+
     window.onbeforeunload = () => this.ngOnDestroy();
   }
 
@@ -99,5 +125,11 @@ export class IngameComponent implements OnInit, OnDestroy {
 
   changePlayerId($event: string): void {
     this.playerId = $event;
+  }
+
+  changeShowJoinGame($event: string): void {
+    if ($event === 'false') {
+      this.showJoinGame = false;
+    }
   }
 }

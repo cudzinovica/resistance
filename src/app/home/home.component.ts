@@ -42,14 +42,10 @@ export class HomeComponent {
       return;
     }
 
-    this.gameService.connect();
-
     this.playerService.createPlayer(roomCode, playerName).subscribe(createdPlayer => {
       this.playerService.setPlayerId(createdPlayer._id);
 
-      this.gameService.joinGame(roomCode, createdPlayer._id);
-
-      this.router.navigate(['/game', roomCode]);
+      this.router.navigate([roomCode]);
     });
   }
 }

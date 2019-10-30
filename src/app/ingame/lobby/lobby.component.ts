@@ -43,6 +43,8 @@ export class LobbyComponent implements OnInit {
             if (game.players.length === 0) {
               this.gameService.deleteGame(this.game.roomCode).subscribe();
             }
+
+            this.playerService.removePlayerId();
             this.router.navigate(['']);
           });
       });

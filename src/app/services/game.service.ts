@@ -24,6 +24,8 @@ export class GameService {
 
   displayGameOver: boolean;
 
+  private socketIsConnected = false;
+
   constructor(
     private http: HttpClient,
     private socket: Socket
@@ -31,12 +33,18 @@ export class GameService {
 
   connect(): void {
     this.socket.connect();
+    this.socketIsConnected = true;
     this.log('connected to socket');
   }
 
   disconnect(): void {
     this.socket.disconnect();
+    this.socketIsConnected = false;
     this.log('disconnected from socket');
+  }
+
+  isConnected(): boolean {
+    return this.socketIsConnected;
   }
 
   getThisGame(): Observable<Game> {
