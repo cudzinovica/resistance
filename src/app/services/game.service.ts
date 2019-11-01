@@ -21,6 +21,7 @@ export class GameService {
 
   private game: Observable<Game> = this.socket.fromEvent<Game>('game');
   private errorMsg: Observable<string> = this.socket.fromEvent<string>('error_msg');
+  private kickPlayerSub: Observable<string> = this.socket.fromEvent<string>('kick-player');
 
   displayGameOver: boolean;
 
@@ -59,12 +60,22 @@ export class GameService {
     );
   }
 
+  getKickPlayerSub(): Observable<string> {
+    return this.kickPlayerSub.pipe(
+      tap((playerId: string) => this.log(`got message to kick player: ${playerId}`))
+    );
+  }
+
   joinGame(roomCode: string, playerId: string): void {
     this.socket.emit('join-game', {roomCode, playerId});
   }
 
   leaveGame(): void {
     this.socket.emit('leave-game');
+  }
+
+  kickPlayer(playerId: string): void {
+    this.socket.emit('kick-player', {playerId});
   }
 
   startGame(): void {

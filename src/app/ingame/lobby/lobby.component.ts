@@ -14,8 +14,11 @@ import { Router } from '@angular/router';
 export class LobbyComponent implements OnInit {
   @Input() game: Game;
   @Input() playerId: string;
+  @Input() gameId: string;
 
   displayGameOver: boolean;
+
+  hovered = new Set();
 
   constructor(
     private gameService: GameService,
@@ -52,5 +55,18 @@ export class LobbyComponent implements OnInit {
 
   changeDisplayGameOver($event: boolean): void {
     this.displayGameOver = $event;
+  }
+
+  kickPlayer(playerId: string): void {
+    // delete player from game
+    this.playerService.deletePlayer(this.gameId, playerId).subscribe(_ => {
+      // broadcast player was kicked
+      this.gameService.kickPlayer(playerId);
+    });
+
+  }
+
+  leaveGame(): void {
+
   }
 }

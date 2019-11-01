@@ -1,5 +1,5 @@
 <div *ngIf="!showJoinGame; else joinGame" class="container mt-2">
-  <div *ngIf="game.phase == gamePhases.Lobby; else gameTemplate"><app-lobby [game]=game [playerId]=playerId></app-lobby></div>
+  <div *ngIf="game.phase == gamePhases.Lobby; else gameTemplate"><app-lobby [game]=game [playerId]=playerId [gameId]=gameId></app-lobby></div>
   <ng-template #gameTemplate><app-game [game]=game [playerId]=playerId [player]=player [currentLeader]=currentLeader [previousPasses]=previousPasses [previousFails]=previousFails [currentTeamPlayers]="currentTeamPlayers" [phaseChangeStatus]="phaseChangeStatus"></app-game></ng-template>
 </div>
 

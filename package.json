@@ -30,6 +30,7 @@
     "express": "^4.17.1",
     "jquery": "^3.4.1",
     "ngx-socket-io": "^3.0.1",
+    "open-iconic": "^1.1.1",
     "path": "^0.12.7",
     "popper.js": "^1.15.0",
     "rxjs": "~6.4.0",

@@ -27,6 +27,7 @@ export class IngameComponent implements OnInit, OnDestroy {
 
   private gameSub: Subscription;
   private errorMsgSub: Subscription;
+  private kickPlayerSub: Subscription;
 
   gamePhases = GamePhases;
 
@@ -94,6 +95,11 @@ export class IngameComponent implements OnInit, OnDestroy {
       });
     });
     this.errorMsgSub = this.gameService.getErrorMessage().subscribe( errorMsg => alert(errorMsg) );
+    this.kickPlayerSub = this.gameService.getKickPlayerSub().subscribe( playerId => {
+      if (playerId === this.playerId) {
+        this.router.navigate(['']);
+      }
+    });
 
     this.route.paramMap.subscribe(params => {
       if (!this.gameService.isConnected()) {
