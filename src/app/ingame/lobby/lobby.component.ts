@@ -63,7 +63,6 @@ export class LobbyComponent implements OnInit {
       // broadcast player was kicked
       this.gameService.kickPlayer(playerId);
     });
-
   }
 
   leaveGame(): void {

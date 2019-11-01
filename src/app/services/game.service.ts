@@ -118,9 +118,7 @@ export class GameService {
   /** GET game by id. Will 404 if id not found */
   getGame(id: string): Observable<Game> {
     const url = `${this.gamesUrl}/${id}`;
-    let params = new HttpParams();
-    params = params.append('populatePlayers', 'true');
-    return this.http.get<Game>(url, {params}).pipe(
+    return this.http.get<Game>(url).pipe(
       tap(_ => this.log(`fetched game id=${id}`)),
       catchError(this.handleError<Game>('getGame'))
     );
