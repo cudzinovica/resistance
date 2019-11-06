@@ -105,6 +105,7 @@ export class IngameComponent implements OnInit, OnDestroy {
       if (!this.gameService.isConnected()) {
         this.gameId = params.get('gameId');
         this.gameService.getGame(this.gameId).subscribe(game => {
+          this.game = game;
           if (!game) {
             alert(`Game with room code ${this.gameId} does not exist`);
             this.router.navigate(['']);

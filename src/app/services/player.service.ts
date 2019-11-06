@@ -50,7 +50,7 @@ export class PlayerService {
     );
   }
 
-  /** GET list of players.*/
+  /** GET list of players. */
   getPlayers(gameId: string): Observable<Player[]> {
     const url = `${this.gamesUrl}/${gameId}/${this.playersUrl}`;
     return this.http.get<Player[]>(url).pipe(

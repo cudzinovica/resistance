@@ -4,5 +4,5 @@
 </div>
 
 <ng-template #joinGame>
-  <app-joingame [gameId]=gameId (playerIdChange)="changePlayerId($event)" (showJoinGameChange)="changeShowJoinGame($event)"></app-joingame>
+  <app-joingame [gameId]=gameId [roomCode]=game.roomCode (playerIdChange)="changePlayerId($event)" (showJoinGameChange)="changeShowJoinGame($event)"></app-joingame>
 </ng-template>

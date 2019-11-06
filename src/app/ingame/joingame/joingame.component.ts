@@ -11,6 +11,7 @@ import { PlayerService } from '../../services/player.service';
 })
 export class JoingameComponent implements OnInit {
   @Input() private gameId: string;
+  @Input() private roomCode: string;
   @Output() playerIdChange = new EventEmitter<string>();
   @Output() showJoinGameChange = new EventEmitter<string>();
 
@@ -23,7 +24,7 @@ export class JoingameComponent implements OnInit {
   }
 
   joinGame(playerName: string): void {
-    playerName = playerName.trim();
+    //TODO: this function not being triggered
     playerName = playerName.trim();
     if (!playerName) {
       alert('Enter your name!');
@@ -33,13 +34,9 @@ export class JoingameComponent implements OnInit {
     this.playerService.createPlayer(this.gameId, playerName).subscribe(createdPlayer => {
       this.playerService.setPlayerId(createdPlayer._id);
       this.playerIdChange.emit(createdPlayer._id);
+      this.gameService.connect();
+      this.gameService.joinGame(this.roomCode, createdPlayer._id);
       this.showJoinGameChange.emit('false');
-
-      this.gameService.joinGame(this.gameId, createdPlayer._id);
     });
-  }
-
-  joinGameHelper(playerName: string): void {
-
   }
 }
