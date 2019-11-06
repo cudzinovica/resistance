@@ -137,6 +137,8 @@ export class IngameComponent implements OnInit, OnDestroy {
   changeShowJoinGame($event: string): void {
     if ($event === 'false') {
       this.showJoinGame = false;
+    } else if ($event === 'true') {
+      this.showJoinGame = true;
     }
   }
 }
