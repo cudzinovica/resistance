@@ -6,6 +6,7 @@ import { GameService } from 'src/app/services/game.service';
 import { PlayerService } from 'src/app/services/player.service';
 import { GamePhases } from 'src/app/enums/gamephases';
 import { PhaseChangeStatuses } from 'src/app/enums/phaseChangeStatuses';
+import { TEAM_SIZES } from 'src/app/constants';
 
 @Component({
   selector: 'app-game',
@@ -29,6 +30,8 @@ export class GameComponent implements OnInit {
   displayLoyalty: boolean;
 
   fellowTraitors: Player[];
+
+  TEAM_SIZES = TEAM_SIZES;
 
   constructor(
     private gameService: GameService,
@@ -57,5 +60,21 @@ export class GameComponent implements OnInit {
 
   toggleDisplayLoyalty() {
     this.displayLoyalty = !this.displayLoyalty;
+  }
+
+  getQuestResultBorderClass(roundNumber: number): any {
+    let questResultBorderClass;
+    if (roundNumber < this.game.currentRound) {
+      if (this.game.missionResults[roundNumber]) {
+        questResultBorderClass = { 'bg-success': true, 'text-white': true };
+      } else {
+        questResultBorderClass = { 'bg-danger': true, 'text-white': true };
+      }
+    } else if (roundNumber === this.game.currentRound) {
+      questResultBorderClass = { 'border-dark': true, 'bg-light': true };
+    } else {
+      questResultBorderClass = { 'bg-light': true };
+    }
+    return questResultBorderClass;
   }
 }
