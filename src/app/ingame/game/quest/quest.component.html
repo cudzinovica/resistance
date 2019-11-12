@@ -2,8 +2,8 @@
   <div *ngIf="!player.hasQuested; else hasQuestedTemplate">
     <div>Choose Mission Outcome.</div>
     <div class="mt-2 row">
-      <div class="col text-center"><button type="button" class="btn btn-outline-secondary" (click)="submitQuest(true)">Pass</button></div>
-      <div class="col text-center"><button type="button" class="btn btn-outline-secondary" [disabled]="player.loyalty" (click)="submitQuest(false)">Fail</button></div>
+      <div class="col text-center"><button type="button" class="btn btn-outline-primary" (click)="submitQuest(true)">Pass</button></div>
+      <div class="col text-center"><button type="button" class="btn btn-outline-primary" [disabled]="player.loyalty" [ngClass]="{'btn-outline-secondary': player.loyalty}" (click)="submitQuest(false)">Fail</button></div>
     </div>
   </div>
   <ng-template #hasQuestedTemplate>

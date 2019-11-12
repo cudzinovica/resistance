@@ -1,34 +1,32 @@
-<div class="text-center mt-5 container">
-  <div><h2>Game Over</h2></div>
-  <div><h1>{{winningTeam}} wins!</h1></div>
+<div class="mt-5">
+  <!-- Announce which team one -->
+  <div class="text-center">
+    <div><h5>Game Over</h5></div>
+    <div><h3>{{winningTeam}} wins!</h3></div>
+  </div>
 
-  <div class="text-center container mt-2">
-    <div>Quest Results</div>
-      <div class="row">
-        <div class="col">1</div>
-        <div class="col">2</div>
-        <div class="col">3</div>
-        <div class="col">4</div>
-        <div class="col">5</div>
+  <!-- Quest Results -->
+  <div class="text-center mt-4 pt-4 border-top">
+    <div class="h5">Quest Results</div>
+    <div class="row">
+      <div *ngFor="let roundNumber of [0,1,2,3,4]" class="w-20 mx-1 p-1 border col" [ngClass]="getQuestResultBorderClass(roundNumber)">
+        <div class="scaling-text">Round {{roundNumber+1}}</div>
+        <div class="h5 m-0">{{roundNumber > game.currentRound ? TEAM_SIZES[game.players.length][roundNumber] : game.missionResults[roundNumber] ? "Pass" : "Fail"}}</div>
       </div>
-      <div class="row">
-          <div class="col">{{game.missionResults[0] === undefined ? " " : game.missionResults[0] ? "S" : "F"}}</div>
-          <div class="col">{{game.missionResults[1] === undefined ? " " : game.missionResults[1] ? "S" : "F"}}</div>
-          <div class="col">{{game.missionResults[2] === undefined ? " " : game.missionResults[2] ? "S" : "F"}}</div>
-          <div class="col">{{game.missionResults[3] === undefined ? " " : game.missionResults[3] ? "S" : "F"}}</div>
-          <div class="col">{{game.missionResults[4] === undefined ? " " : game.missionResults[4] ? "S" : "F"}}</div>
-        </div>
     </div>
+  </div>
 
-  <div class="mt-1 row">
-    <div class="col">
-      <div>Good</div>
+  <!-- Player Details -->
+  <div class="text-center mt-4 row">
+    <div class="col border-right">
+      <h6>Good</h6>
       <div *ngFor="let player of goodPlayers">{{player.name}}</div>
     </div>
     <div class="col">
-      <div>Evil</div>
+      <h6>Evil</h6>
       <div *ngFor="let player of evilPlayers">{{player.name}}</div>
     </div>
   </div>
-  <div class="mt-2"><button type="button" class="btn btn-outline-primary" (click)=goToLobby()>Back to Lobby</button></div>
+
+  <div class="mt-4 pt-4 border-top text-center"><button type="button" class="btn btn-outline-primary" (click)=goToLobby()>Back to Lobby</button></div>
 </div>

@@ -1,8 +1,8 @@
 <div *ngIf="!player.hasVoted; else hasVotedTemplate" class="mt-4">
   <div>Do you approve of this team?</div>
   <div class="mt-2 row">
-    <div class="col text-center"><button type="button" class="btn btn-outline-secondary" (click)="submitVote(true)">Yes</button></div>
-    <div class="col text-center"><button type="button" class="btn btn-outline-secondary" (click)="submitVote(false)">No</button></div>
+    <div class="col text-center"><button type="button" class="btn btn-outline-primary" (click)="submitVote(true)">Yes</button></div>
+    <div class="col text-center"><button type="button" class="btn btn-outline-primary" (click)="submitVote(false)">No</button></div>
   </div>
 </div>
 <ng-template #hasVotedTemplate>

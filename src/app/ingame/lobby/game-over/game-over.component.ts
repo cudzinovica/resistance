@@ -1,7 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+
 import { Game } from 'src/app/models/game';
 import { GameService } from 'src/app/services/game.service';
 import { Player } from 'src/app/models/player';
+import { TEAM_SIZES } from 'src/app/constants';
 
 @Component({
   selector: 'app-game-over',
@@ -11,6 +13,8 @@ import { Player } from 'src/app/models/player';
 export class GameOverComponent implements OnInit {
   @Input() game: Game;
   @Output() displayGameOverChange = new EventEmitter<boolean>();
+
+  TEAM_SIZES = TEAM_SIZES;
 
   winningTeam: string;
   goodPlayers: Player[];
@@ -38,4 +42,17 @@ export class GameOverComponent implements OnInit {
     this.displayGameOverChange.emit(false);
   }
 
+  getQuestResultBorderClass(roundNumber: number): any {
+    let questResultBorderClass;
+    if (roundNumber <= this.game.currentRound) {
+      if (this.game.missionResults[roundNumber]) {
+        questResultBorderClass = { 'bg-success': true, 'text-white': true };
+      } else {
+        questResultBorderClass = { 'bg-danger': true, 'text-white': true };
+      }
+    } else {
+      questResultBorderClass = { 'bg-light': true };
+    }
+    return questResultBorderClass;
+  }
 }

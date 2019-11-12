@@ -8,10 +8,10 @@
   <div *ngIf="!creatingGame && !joiningGame">
     <div class="mt-3">
       <div class="d-inline mx-1">
-        <button type="button" class="btn btn-outline-secondary" (click)="creatingGame=true">New Game</button>
+        <button type="button" class="btn btn-outline-primary" (click)="creatingGame=true">New Game</button>
       </div>
       <div class="d-inline mx-1">
-        <button type="button" class="btn btn-outline-secondary" (click)="joiningGame=true">Join Game</button>
+        <button type="button" class="btn btn-outline-primary" (click)="joiningGame=true">Join Game</button>
       </div>
     </div>
   </div>
@@ -22,10 +22,10 @@
     </div>
     <div class="mt-3">
       <div class="d-inline mx-1">
-        <button type="button" class="btn btn-outline-secondary" (click)="createGame(playerName.value)">Create</button>
+        <button type="button" class="btn btn-outline-primary" (click)="createGame(playerName.value)">Create</button>
       </div>
       <div class="d-inline mx-1">
-        <button type="button" class="btn btn-outline-secondary" (click)="creatingGame=false">Back</button>
+        <button type="button" class="btn btn-outline-primary" (click)="creatingGame=false">Back</button>
       </div>
     </div>
   </div>
@@ -39,10 +39,10 @@
     </div>
     <div class="mt-3">
       <div class="d-inline mx-1">
-        <button type="button" class="btn btn-outline-secondary" (click)="joinGame(gameId.value, playerName.value)">Join</button>
+        <button type="button" class="btn btn-outline-primary" (click)="joinGame(gameId.value, playerName.value)">Join</button>
       </div>
       <div class="d-inline mx-1">
-        <button type="button" class="btn btn-outline-secondary" (click)="joiningGame=false">Back</button>
+        <button type="button" class="btn btn-outline-primary" (click)="joiningGame=false">Back</button>
       </div>
     </div>
   </div>
