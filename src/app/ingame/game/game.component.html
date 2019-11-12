@@ -18,11 +18,11 @@
   <!-- quest results -->
   <div class="text-center mt-2">
     <div>Quest Results</div>
-    <div class="d-flex flex-row justify-content-between">
-      <div *ngFor="let roundNumber of [0,1,2,3,4]" class="w-20 p-1 border" [ngClass]="getQuestResultBorderClass(roundNumber)">
-        <div *ngIf="roundNumber == 3 && game.players.length >= 7" class="small">Two fails required</div>
-        <div>Round {{roundNumber+1}}</div>
-        <div>{{roundNumber >= game.currentRound ? TEAM_SIZES[game.players.length][roundNumber] : game.missionResults[roundNumber] ? "Pass" : "Fail"}}</div>
+    <div class="row">
+      <div *ngFor="let roundNumber of [0,1,2,3,4]" class="w-20 mx-1 p-1 border col" [ngClass]="getQuestResultBorderClass(roundNumber)">
+        <div class="scaling-text">Round {{roundNumber+1}}</div>
+        <div class="h5 m-0">{{roundNumber >= game.currentRound ? TEAM_SIZES[game.players.length][roundNumber] : game.missionResults[roundNumber] ? "Pass" : "Fail"}}</div>
+        <div *ngIf="roundNumber == 3 && game.players.length >= 7" class="small no-line-height">*Two fails required</div>
       </div>
     </div>
   </div>

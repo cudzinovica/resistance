@@ -1,0 +1,9 @@
+.no-line-height {
+  line-height: 1;
+}
+
+@media screen and (max-width: 400px) {
+  .scaling-text {
+    font-size: 4vw;
+  }
+}
