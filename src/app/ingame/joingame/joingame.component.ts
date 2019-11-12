@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { GameService } from '../../services/game.service';
 import { PlayerService } from '../../services/player.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-joingame',
@@ -17,6 +18,7 @@ export class JoingameComponent implements OnInit {
   constructor(
     private gameService: GameService,
     private playerService: PlayerService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -36,5 +38,10 @@ export class JoingameComponent implements OnInit {
       this.gameService.joinGame(this.roomCode, createdPlayer._id);
       this.showJoinGameChange.emit('false');
     });
+  }
+
+  leaveGame(): void {
+    this.playerService.removePlayerId();
+    this.router.navigate(['']);
   }
 }

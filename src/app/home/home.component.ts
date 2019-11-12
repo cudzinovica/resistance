@@ -42,6 +42,12 @@ export class HomeComponent {
       return;
     }
 
+    this.gameService.getGame(roomCode).subscribe(game => {
+      if (!game) {
+        alert(`Game with room code ${roomCode} does not exist`);
+      }
+    });
+
     this.playerService.createPlayer(roomCode, playerName).subscribe(createdPlayer => {
       this.playerService.setPlayerId(createdPlayer._id);
 
