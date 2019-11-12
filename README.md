@@ -1,5 +1,15 @@
 # Resistance
 
+Web app for The Resistance: Avalon!
+
+[Play it here](https://theresistance.herokuapp.com/)
+
+Avalon roles (i.e. Merlin, Assassin, etc.) coming soon!
+
+[The Resistance API](https://github.com/cudzinovica/resistance-api)
+
+# Dev info
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.5.
 
 ## Development server
