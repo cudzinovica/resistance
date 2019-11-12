@@ -17,6 +17,7 @@ import { QuestComponent } from './ingame/game/quest/quest.component';
 import { GameComponent } from './ingame/game/game.component';
 import { GameOverComponent } from './ingame/lobby/game-over/game-over.component';
 import { environment } from 'src/environments/environment';
+import { FooterComponent } from './footer/footer.component';
 
 const socketIoConfig: SocketIoConfig = { url: environment.resistanceApiUri, options: {} };
 
@@ -32,6 +33,7 @@ const socketIoConfig: SocketIoConfig = { url: environment.resistanceApiUri, opti
     QuestComponent,
     GameComponent,
     GameOverComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,

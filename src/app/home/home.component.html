@@ -1,50 +1,58 @@
-<div class="container jumbotron mt-5 text-center">
-  <div>
-    <h1>
-      Welcome to The Resistance!
-    </h1>
+<div class="container mt-5 mb-5 text-center">
+  <div class="jumbotron">
+    <!-- header -->
+    <div>
+      <h1>
+        Welcome to The Resistance!
+      </h1>
+    </div>
+
+    <!-- home -->
+    <div *ngIf="!creatingGame && !joiningGame">
+      <div class="mt-3">
+        <div class="d-inline mx-1">
+          <button type="button" class="btn btn-outline-primary" (click)="creatingGame=true">New Game</button>
+        </div>
+        <div class="d-inline mx-1">
+          <button type="button" class="btn btn-outline-primary" (click)="joiningGame=true">Join Game</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- creating game view -->
+    <div *ngIf="creatingGame">
+      <div class="mt-3 mx-5">
+        <input type="text" class="form-control" placeholder="Enter Name" autocorrect="off" #playerName />
+      </div>
+      <div class="mt-3">
+        <div class="d-inline mx-1">
+          <button type="button" class="btn btn-outline-primary" (click)="createGame(playerName.value)">Create</button>
+        </div>
+        <div class="d-inline mx-1">
+          <button type="button" class="btn btn-outline-primary" (click)="creatingGame=false">Back</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- joining game view -->
+    <div *ngIf="joiningGame">
+      <div class="mt-3 mx-5">
+        <input type="text" class="form-control" placeholder="Enter Room Code" autocorrect="off" autocapitalize="none" #gameId />
+      </div>
+      <div class="mt-3 mx-5">
+        <input type="text" class="form-control" placeholder="Enter Name" autocorrect="off" #playerName />
+      </div>
+      <div class="mt-3">
+        <div class="d-inline mx-1">
+          <button type="button" class="btn btn-outline-primary" (click)="joinGame(gameId.value, playerName.value)">Join</button>
+        </div>
+        <div class="d-inline mx-1">
+          <button type="button" class="btn btn-outline-primary" (click)="joiningGame=false">Back</button>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div *ngIf="!creatingGame && !joiningGame">
-    <div class="mt-3">
-      <div class="d-inline mx-1">
-        <button type="button" class="btn btn-outline-primary" (click)="creatingGame=true">New Game</button>
-      </div>
-      <div class="d-inline mx-1">
-        <button type="button" class="btn btn-outline-primary" (click)="joiningGame=true">Join Game</button>
-      </div>
-    </div>
-  </div>
-
-  <div *ngIf="creatingGame">
-    <div class="mt-3 mx-5">
-      <input type="text" class="form-control" placeholder="Enter Name" autocorrect="off" #playerName />
-    </div>
-    <div class="mt-3">
-      <div class="d-inline mx-1">
-        <button type="button" class="btn btn-outline-primary" (click)="createGame(playerName.value)">Create</button>
-      </div>
-      <div class="d-inline mx-1">
-        <button type="button" class="btn btn-outline-primary" (click)="creatingGame=false">Back</button>
-      </div>
-    </div>
-  </div>
-
-  <div *ngIf="joiningGame">
-    <div class="mt-3 mx-5">
-      <input type="text" class="form-control" placeholder="Enter Room Code" autocorrect="off" autocapitalize="none" #gameId />
-    </div>
-    <div class="mt-3 mx-5">
-      <input type="text" class="form-control" placeholder="Enter Name" autocorrect="off" #playerName />
-    </div>
-    <div class="mt-3">
-      <div class="d-inline mx-1">
-        <button type="button" class="btn btn-outline-primary" (click)="joinGame(gameId.value, playerName.value)">Join</button>
-      </div>
-      <div class="d-inline mx-1">
-        <button type="button" class="btn btn-outline-primary" (click)="joiningGame=false">Back</button>
-      </div>
-    </div>
-  </div>
-
+  <!-- footer -->
+  <app-footer></app-footer>
 </div>
