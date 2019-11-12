@@ -1,4 +1,4 @@
-<div *ngIf="game.currentTeam.includes(playerId); else notOnTeam">
+<div *ngIf="game.currentTeam.includes(playerId); else notOnTeam" class="mt-4">
   <div *ngIf="!player.hasQuested; else hasQuestedTemplate">
     <div>Choose Mission Outcome:</div>
     <div class="mt-1 row">
@@ -9,9 +9,9 @@
     <div class="text-center mt-2"><button type="button" class="btn btn-outline-primary" (click)="submitQuest()">Submit</button></div>
   </div>
   <ng-template #hasQuestedTemplate>
-    <div class="mt-2">Waiting for rest of team to quest</div>
+    <div>Waiting for rest of team to quest</div>
   </ng-template>
 </div>
 <ng-template #notOnTeam>
-  <div class="mt-2">Waiting for team to go on quest</div>
+  <div class="mt-4">Waiting for team to go on quest</div>
 </ng-template>

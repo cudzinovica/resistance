@@ -2,7 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -38,6 +39,7 @@ const socketIoConfig: SocketIoConfig = { url: environment.resistanceApiUri, opti
     HttpClientModule,
     SocketIoModule.forRoot(socketIoConfig),
     NgbModule,
+    FontAwesomeModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

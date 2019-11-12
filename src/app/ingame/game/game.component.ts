@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons';
 
 import { Game } from 'src/app/models/game';
 import { Player } from 'src/app/models/player';
@@ -7,6 +8,7 @@ import { PlayerService } from 'src/app/services/player.service';
 import { GamePhases } from 'src/app/enums/gamephases';
 import { PhaseChangeStatuses } from 'src/app/enums/phaseChangeStatuses';
 import { TEAM_SIZES } from 'src/app/constants';
+import { Loyalty } from 'src/app/enums/loyalty';
 
 @Component({
   selector: 'app-game',
@@ -25,13 +27,16 @@ export class GameComponent implements OnInit {
 
   gamePhases = GamePhases;
   phaseChangeStatuses = PhaseChangeStatuses;
+  loyaltyEnum = Loyalty;
+  TEAM_SIZES = TEAM_SIZES;
+  faQuestionCircle = faQuestionCircle;
 
   loyalty: string;
   displayLoyalty: boolean;
+  displayLegend: boolean;
 
   fellowTraitors: Player[];
 
-  TEAM_SIZES = TEAM_SIZES;
 
   constructor(
     private gameService: GameService,
