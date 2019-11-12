@@ -13,8 +13,6 @@ export class VoteComponent implements OnInit {
   @Input() playerId: string;
   @Input() player: Player;
 
-  currentVote: boolean;
-
   constructor(
     private gameService: GameService,
   ) { }
@@ -22,12 +20,8 @@ export class VoteComponent implements OnInit {
   ngOnInit() {
   }
 
-  updateVote(vote: boolean) {
-    this.currentVote = vote;
-  }
-
-  submitVote() {
-    this.gameService.submitVote(this.currentVote);
+  submitVote(vote: boolean) {
+    this.gameService.submitVote(vote);
   }
 
 }

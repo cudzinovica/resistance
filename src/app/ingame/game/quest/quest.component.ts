@@ -13,8 +13,6 @@ export class QuestComponent implements OnInit {
   @Input() playerId: string;
   @Input() player: Player;
 
-  currentQuest: boolean;
-
   constructor(
     private gameService: GameService,
   ) { }
@@ -22,11 +20,7 @@ export class QuestComponent implements OnInit {
   ngOnInit() {
   }
 
-  updateQuest(quest: boolean) {
-    this.currentQuest = quest;
-  }
-
-  submitQuest() {
-    this.gameService.submitQuest(this.player.loyalty ? true : this.currentQuest);
+  submitQuest(quest: boolean) {
+    this.gameService.submitQuest(this.player.loyalty ? true : quest);
   }
 }

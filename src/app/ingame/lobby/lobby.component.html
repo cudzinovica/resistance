@@ -1,38 +1,37 @@
-<div *ngIf="game.winningTeam === null || !displayGameOver; else gameOverTemplate" class="text-center">
-  <div>
-    <h1>
-      Lobby
-    </h1>
+<div *ngIf="game.winningTeam === null || !displayGameOver; else gameOverTemplate" class="mt-5">
+  <div class="text-center">
+    <h4>
+      Waiting For Players...
+    </h4>
+  </div>
+
+  <div class="mt-3 text-center">
+    <h6>Game Code: {{game.roomCode}}</h6>
   </div>
 
   <div class="mt-3">
-    <h5>Game Code: {{game.roomCode}}</h5>
-  </div>
-
-  <div class="mt-3">
-    <h6>Players:</h6>
-    <div class="ml-5 text-left">
-      <div *ngFor="let player of game.players" class="d-flex flex-row justify-content-between">
+    <div class="mx-5">
+      <div *ngFor="let player of game.players" class="my-1 p-1 d-flex flex-row justify-content-between bg-light">
         <div>
             {{player.name}}
         </div>
         <div *ngIf="player._id === playerId">
-          <span class="oi oi-pencil pointer" title="Edit Name" aria-hidden="true" (click)="leaveGame()" (mouseenter)="hovered.add(player._id)" (mouseleave)="hovered.delete(player._id)" [ngClass]="{'text-primary': hovered.has(player._id)}"></span>
+          <span class="oi oi-pencil pointer text-muted" title="Edit Name" aria-hidden="true" (click)="leaveGame()" (mouseenter)="hovered.add(player._id)" (mouseleave)="hovered.delete(player._id)" [ngClass]="{'text-primary': hovered.has(player._id)}"></span>
         </div>
         <div *ngIf="player._id !== playerId">
-          <span class="oi oi-x pointer" title="Kick Player" aria-hidden="true" (click)="kickPlayer(player._id)" (mouseenter)="hovered.add(player._id)" (mouseleave)="hovered.delete(player._id)" [ngClass]="{'text-primary': hovered.has(player._id)}"></span>
+          <span class="oi oi-x pointer text-muted" title="Kick Player" aria-hidden="true" (click)="kickPlayer(player._id)" (mouseenter)="hovered.add(player._id)" (mouseleave)="hovered.delete(player._id)" [ngClass]="{'text-primary': hovered.has(player._id)}"></span>
         </div>
       </div>
     </div>
   </div>
 
 
-  <div class="mt-3">
+  <div class="mt-3 text-center">
     <div class="d-inline mx-1">
-      <button type="button" class="btn btn-outline-primary" (click)="startGame()">Start Game</button>
+      <button type="button" class="btn btn-outline-secondary" (click)="startGame()">Start Game</button>
     </div>
     <div class="d-inline mx-1">
-      <button type="button" class="btn btn-outline-primary" (click)="exitGame()">Exit Game</button>
+      <button type="button" class="btn btn-outline-secondary" (click)="exitGame()">Leave Game</button>
     </div>
   </div>
 </div>

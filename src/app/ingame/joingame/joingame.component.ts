@@ -23,7 +23,6 @@ export class JoingameComponent implements OnInit {
   }
 
   joinGame(playerName: string): void {
-    //TODO: this function not being triggered
     playerName = playerName.trim();
     if (!playerName) {
       alert('Enter your name!');
