@@ -134,6 +134,7 @@ export class IngameComponent implements OnInit, OnDestroy {
 
   checkSocketConnected(): void {
     this.gameService.connect();
+    this.gameService.joinGame(this.gameId, this.playerService.getPlayerId());
   }
 
   changePlayerId($event: string): void {
