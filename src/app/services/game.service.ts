@@ -68,6 +68,7 @@ export class GameService {
 
   joinGame(roomCode: string, playerId: string): void {
     this.socket.emit('join-game', {roomCode, playerId});
+    this.log(`joined game ${roomCode} as ${playerId}`);
   }
 
   leaveGame(): void {
