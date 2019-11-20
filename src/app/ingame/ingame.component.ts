@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription, Subject } from 'rxjs';
+import { Subscription, Subject, interval } from 'rxjs';
 
 import { GameService } from '../services/game.service';
 import { PlayerService } from '../services/player.service';
@@ -36,6 +36,8 @@ export class IngameComponent implements OnInit, OnDestroy {
 
   showJoinGame: boolean;
 
+  private intervalSubscription: Subscription;
+
   constructor(
     private gameService: GameService,
     private playerService: PlayerService,
@@ -69,6 +71,9 @@ export class IngameComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    const source = interval(5000);
+    this.intervalSubscription = source.subscribe(_ => this.checkSocketConnected());
+
     this.playerId = this.playerService.getPlayerId();
 
     this._phaseChange.subscribe(phaseChangeStatus => this.phaseChangeStatus = phaseChangeStatus);
@@ -128,6 +133,10 @@ export class IngameComponent implements OnInit, OnDestroy {
     this.gameService.disconnect();
     this.gameSub.unsubscribe();
     this.errorMsgSub.unsubscribe();
+  }
+
+  checkSocketConnected(): void {
+    this.gameService.connect();
   }
 
   changePlayerId($event: string): void {
