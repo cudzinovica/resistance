@@ -7,7 +7,6 @@ import { catchError, tap } from 'rxjs/operators';
 
 import { Game } from '../models/game';
 import { environment } from 'src/environments/environment';
-import { runInThisContext } from 'vm';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
