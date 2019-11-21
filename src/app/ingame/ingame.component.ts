@@ -69,9 +69,6 @@ export class IngameComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log('in ngoninit');
-    // setInterval(() => this.checkSocketConnected(), 5000);
-
     this.playerId = this.playerService.getPlayerId();
 
     this._phaseChange.subscribe(phaseChangeStatus => this.phaseChangeStatus = phaseChangeStatus);
@@ -134,7 +131,11 @@ export class IngameComponent implements OnInit, OnDestroy {
   }
 
   checkSocketConnected(): void {
-    this.ngOnInit();
+    console.log('in checksocketconnected');
+    if (!this.gameService.isConnected()) {
+      console.log('socket not connected, calling ngoninit');
+      this.ngOnInit();
+    }
   }
 
   changePlayerId($event: string): void {

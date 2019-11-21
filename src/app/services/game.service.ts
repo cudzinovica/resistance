@@ -7,6 +7,7 @@ import { catchError, tap } from 'rxjs/operators';
 
 import { Game } from '../models/game';
 import { environment } from 'src/environments/environment';
+import { runInThisContext } from 'vm';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -25,8 +26,6 @@ export class GameService {
 
   displayGameOver: boolean;
 
-  private socketIsConnected = false;
-
   constructor(
     private http: HttpClient,
     private socket: Socket
@@ -34,18 +33,16 @@ export class GameService {
 
   connect(): void {
     this.socket.connect();
-    this.socketIsConnected = true;
     this.log('connected to socket');
   }
 
   disconnect(): void {
     this.socket.disconnect();
-    this.socketIsConnected = false;
     this.log('disconnected from socket');
   }
 
   isConnected(): boolean {
-    return this.socketIsConnected;
+    return this.socket.ioSocket.connected;
   }
 
   getThisGame(): Observable<Game> {
