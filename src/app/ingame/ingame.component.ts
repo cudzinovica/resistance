@@ -134,11 +134,7 @@ export class IngameComponent implements OnInit, OnDestroy {
   }
 
   checkSocketConnected(): void {
-    console.log('in checksocketconnected');
-    if (!this.gameService.isConnected()) {
-      console.log('socket not connected, calling ngoninit');
-      this.ngOnInit();
-    }
+    this.ngOnInit();
   }
 
   changePlayerId($event: string): void {
