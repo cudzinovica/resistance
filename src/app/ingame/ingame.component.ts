@@ -69,9 +69,6 @@ export class IngameComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log('in ngoninit');
-    setInterval(() => this.checkSocketConnected(), 5000);
-
     this.playerId = this.playerService.getPlayerId();
 
     this._phaseChange.subscribe(phaseChangeStatus => this.phaseChangeStatus = phaseChangeStatus);
