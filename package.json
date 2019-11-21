@@ -10,7 +10,7 @@
     "start": "node server.js",
     "start-local": "ng serve",
     "build": "ng build",
-    "heroku-postbuild": "ng build --prod",
+    "heroku-postbuild": "ng build --configuration=${environment}",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
