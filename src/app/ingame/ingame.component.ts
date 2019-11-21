@@ -70,7 +70,7 @@ export class IngameComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     console.log('in ngoninit');
-    setInterval(() => this.checkSocketConnected(), 5000);
+    // setInterval(() => this.checkSocketConnected(), 5000);
 
     this.playerId = this.playerService.getPlayerId();
 
