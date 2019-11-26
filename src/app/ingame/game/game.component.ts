@@ -82,4 +82,14 @@ export class GameComponent implements OnInit {
     }
     return questResultBorderClass;
   }
+
+  getPlayerBorderClass(playerId: string): any {
+    let playerBorderClass;
+    if (this.game.phase !== this.gamePhases.Selection && this.game.currentTeam.includes(playerId)) {
+      playerBorderClass = { 'bg-info': true, 'text-white': true};
+    } else {
+      playerBorderClass = { 'bg-light': true };
+    }
+    return playerBorderClass;
+  }
 }

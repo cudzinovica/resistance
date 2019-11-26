@@ -5,50 +5,63 @@
       <div *ngIf="!displayLoyalty">Show</div>
       <div *ngIf="displayLoyalty">Hide</div>
     </div>
-    <div *ngIf="displayLoyalty"class="h4 mb-3 text-center">You are on team {{loyalty}}</div>
+    <div *ngIf="displayLoyalty">
+      <div class="h4 mb-3 text-center">You are on team {{loyalty}}</div>
+      <div *ngIf="!player.loyalty" class="ml-1">
+        <div>Fellow Traitors:</div>
+        <div *ngFor="let currPlayer of game.players" class="ml-2">
+          <div *ngIf="!currPlayer.loyalty">
+            {{currPlayer.name}}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- previous phase results -->
   <!-- Game has started -->
-  <ngb-alert *ngIf="phaseChangeStatus === phaseChangeStatuses.LobbyToSelection" (close)="phaseChangeStatus = null" class="mt-4">
+  <ngb-alert *ngIf="phaseChangeStatus === phaseChangeStatuses.LobbyToSelection" [dismissible]="false" class="mt-4">
     <div>Game has started</div>
   </ngb-alert>
 
-  <!-- Previous round's quest results -->
-  <ngb-alert *ngIf="phaseChangeStatus === phaseChangeStatuses.QuestToSelection" (close)="phaseChangeStatus = null" class="mt-4">
-    <div *ngIf="game.missionResults[game.currentRound-1]">Quest Succeeded</div>
-    <div *ngIf="!game.missionResults[game.currentRound-1]">Quest Failed</div>
-    <div>Quest Breakdown:</div>
-    <div>{{previousPasses}} Passes, {{previousFails}} Fails</div>
+  <!-- Proposed Team -->
+  <ngb-alert *ngIf="phaseChangeStatus === phaseChangeStatuses.SelectionToVote" [dismissible]="false" class="mt-4">
+    <div>Proposed Team</div>
+    <div class="d-flex flex-row flex-wrap mt-1">
+      <div *ngFor="let currPlayer of currentTeamPlayers" class="w-50 d-flex flex-row">
+        <div>{{currPlayer.name}}</div>
+        <div *ngIf="game.phase === gamePhases.Quest && currPlayer.hasQuested" class="small">Q</div>
+      </div>
+    </div>
   </ngb-alert>
 
   <!-- Vote results -->
-  <ngb-alert *ngIf="phaseChangeStatus === phaseChangeStatuses.VoteToSelection || phaseChangeStatus === phaseChangeStatuses.VoteToQuest" (close)="phaseChangeStatus = null" class="mt-4">
-    <div *ngIf="phaseChangeStatus === phaseChangeStatuses.VoteToSelection">Vote did not pass</div>
+  <ngb-alert *ngIf="phaseChangeStatus === phaseChangeStatuses.VoteToSelection || phaseChangeStatus === phaseChangeStatuses.VoteToQuest" class="mt-4" [dismissible]="false">
+    <div *ngIf="phaseChangeStatus === phaseChangeStatuses.VoteToSelection">
+      <div>Vote did not pass</div>
+      <div>Failed Votes: {{game.failedVotes}} (Evil wins at 5)</div>
+    </div>
     <div *ngIf="phaseChangeStatus === phaseChangeStatuses.VoteToQuest">Vote passed</div>
     <div class="mt-1">
-      <div>Vote breakdown:</div>
+      <div>Breakdown:</div>
       <div class="d-flex flex-row flex-wrap mt-1">
         <div *ngFor="let currPlayer of game.players" class="w-50">
-          <div class="col d-flex flex-row justify-content-between mx-2">
-            <div>{{currPlayer.name}}</div>
-            <div *ngIf="currPlayer.currentVote">Yes</div>
-            <div *ngIf="!currPlayer.currentVote">No</div>
+          <div class="mx-2">
+            <div class="d-inline">{{currPlayer.name}}: </div>
+            <div *ngIf="currPlayer.currentVote" class="d-inline">Yes</div>
+            <div *ngIf="!currPlayer.currentVote" class="d-inline">No</div>
           </div>
         </div>
       </div>
     </div>
   </ngb-alert>
 
-  <!-- Proposed Team -->
-  <ngb-alert *ngIf="phaseChangeStatus === phaseChangeStatuses.SelectionToVote" (close)="phaseChangeStatus = null" class="mt-4">
-    <div>Proposed Team</div>
-    <div class="d-flex flex-row flex-wrap mt-1">
-      <div *ngFor="let currPlayer of currentTeamPlayers" class="w-50">
-        <div class="col">{{currPlayer.name}}</div>
-        <div *ngIf="game.phase === gamePhases.Quest && currPlayer.hasQuested" class="col small">Q</div>
-      </div>
-    </div>
+  <!-- Previous round's quest results -->
+  <ngb-alert *ngIf="phaseChangeStatus === phaseChangeStatuses.QuestToSelection" [dismissible]="false" class="mt-4">
+    <div *ngIf="game.missionResults[game.currentRound-1]">Quest Succeeded</div>
+    <div *ngIf="!game.missionResults[game.currentRound-1]">Quest Failed</div>
+    <div>Breakdown:</div>
+    <div>{{previousPasses}} Passes, {{previousFails}} Fails</div>
   </ngb-alert>
 
   <!-- Phase specific view -->
@@ -58,26 +71,14 @@
 
   <!-- player list -->
   <div class="mt-3 pt-4 border-top">
-    <div class="d-flex justify-content-between">
+    <div class="text-center">
       <div class="h5">Players</div>
-      <fa-icon [icon]="faQuestionCircle" (click)="displayLegend = !displayLegend"></fa-icon>
-    </div>
-    <div *ngIf="displayLegend" class="border-top border-bottom py-2">
-      <div>L: Leader</div>
-      <div>E: Players on team Evil (can only see if you are Evil)</div>
-      <div>T: Players selected for quest team</div>
-      <div>V: During vote phase, players who have voted</div>
-      <div>Q: During quest phase, players who have quested</div>
     </div>
     <div class="mt-1 d-flex flex-wrap">
       <div *ngFor="let currPlayer of game.players" class="item">
-        <div class="p-1 bg-light d-flex flex-row align-items-center">
+        <div class="p-1 rounded d-flex flex-row align-items-center" [ngClass]="getPlayerBorderClass(currPlayer._id)">
           <div class="flex-grow-1">{{currPlayer.name}}</div>
-          <div *ngIf="currPlayer._id === currentLeader._id" class="small mx-1">L</div>
-          <div *ngIf="player.loyalty === loyaltyEnum.Evil && displayLoyalty && currPlayer.loyalty === loyaltyEnum.Evil" class="small mx-1">E</div>
-          <div *ngIf="game.phase !== gamePhases.Selection && game.currentTeam.includes(currPlayer._id)" class="small mx-1">T</div>
-          <div *ngIf="game.phase === gamePhases.Vote && currPlayer.hasVoted" class="small mx-1">V</div>
-          <div *ngIf="game.phase === gamePhases.Quest && game.currentTeam.includes(currPlayer._id) && currPlayer.hasQuested" class="small mx-1">Q</div>
+          <span *ngIf="(game.phase === gamePhases.Vote && currPlayer.hasVoted) || (game.phase === gamePhases.Quest && game.currentTeam.includes(currPlayer._id) && currPlayer.hasQuested)" class="oi oi-check"></span>
         </div>
       </div>
     </div>
