@@ -47,9 +47,7 @@ export class IngameComponent implements OnInit, OnDestroy {
 
   @HostListener('window:focus', ['$event'])
   onFocus(event: any): void {
-    const today = new Date();
-    const timeString = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
-    this.screenMessage = `Latest onFocus: ${timeString}`;
+    this.checkSocketConnected();
   }
 
   generatePrevRoundMessage(newGame: Game) {
@@ -140,10 +138,14 @@ export class IngameComponent implements OnInit, OnDestroy {
   }
 
   checkSocketConnected(): void {
-    console.log('in checksocketconnected');
+    const today = new Date();
+    const timeString = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
+    this.screenMessage = `Latest onFocus: ${timeString}`;
+
     if (!this.gameService.isConnected()) {
-      console.log('socket not connected, calling ngoninit');
-      this.ngOnInit();
+      this.screenMessage += 'socket not connected';
+    } else {
+      this.screenMessage += 'socket is connected';
     }
   }
 
