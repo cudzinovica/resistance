@@ -32,6 +32,7 @@ export class HomeComponent {
   }
 
   joinGame(roomCode: string, playerName: string): void {
+    roomCode = roomCode.toLowerCase();
     playerName = playerName.trim();
     if (!playerName) {
       alert('Enter your name!');
