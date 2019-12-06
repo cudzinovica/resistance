@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Subscription, Subject } from 'rxjs';
 
 import { GameService } from '../services/game.service';
@@ -36,12 +36,21 @@ export class IngameComponent implements OnInit, OnDestroy {
 
   showJoinGame: boolean;
 
+  screenMessage = 'Initial screen message';
+
   constructor(
     private gameService: GameService,
     private playerService: PlayerService,
     private route: ActivatedRoute,
     private router: Router,
   ) { }
+
+  @HostListener('window:focus', ['$event'])
+  onFocus(event: any): void {
+    const today = new Date();
+    const timeString = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
+    this.screenMessage = `Latest onFocus: ${timeString}`;
+  }
 
   generatePrevRoundMessage(newGame: Game) {
     let phaseChangeStatus: number;
