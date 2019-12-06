@@ -159,6 +159,7 @@ export class IngameComponent implements OnInit, OnDestroy {
       });
     } else {
       this.screenMessage += 'socket is connected';
+      this.gameService.joinGame(this.gameId, this.playerId);
     }
   }
 
