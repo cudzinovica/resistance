@@ -36,8 +36,6 @@ export class IngameComponent implements OnInit, OnDestroy {
 
   showJoinGame: boolean;
 
-  screenMessage = 'Initial screen message';
-
   constructor(
     private gameService: GameService,
     private playerService: PlayerService,
@@ -138,13 +136,7 @@ export class IngameComponent implements OnInit, OnDestroy {
   }
 
   checkSocketConnected(): void {
-    const today = new Date();
-    const timeString = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
-    this.screenMessage = `Latest onFocus: ${timeString}`;
-
     if (!this.gameService.isConnected()) {
-      this.screenMessage += 'socket not connected';
-
       this.gameService.getGame(this.gameId).subscribe(game => {
         if (!game) {
           alert(`Game with room code ${this.gameId} does not exist`);
@@ -154,11 +146,9 @@ export class IngameComponent implements OnInit, OnDestroy {
         } else {
           this.gameService.connect();
           this.gameService.joinGame(this.gameId, this.playerId);
-          this.screenMessage += ' but is now';
         }
       });
     } else {
-      this.screenMessage += 'socket is connected';
       this.gameService.joinGame(this.gameId, this.playerId);
     }
   }
