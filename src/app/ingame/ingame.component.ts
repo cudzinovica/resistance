@@ -144,6 +144,19 @@ export class IngameComponent implements OnInit, OnDestroy {
 
     if (!this.gameService.isConnected()) {
       this.screenMessage += 'socket not connected';
+
+      this.gameService.getGame(this.gameId).subscribe(game => {
+        if (!game) {
+          alert(`Game with room code ${this.gameId} does not exist`);
+
+          this.playerService.removePlayerId();
+          this.router.navigate(['']);
+        } else {
+          this.gameService.connect();
+          this.gameService.joinGame(this.gameId, this.playerId);
+          this.screenMessage += ' but is now';
+        }
+      });
     } else {
       this.screenMessage += 'socket is connected';
     }
