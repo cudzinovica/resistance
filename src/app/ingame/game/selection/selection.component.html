@@ -1,6 +1,6 @@
 <div class="mt-4">
   <div *ngIf="playerId===currentLeader._id; else nonLeader">
-    <div>You are the leader. Choose {{TEAM_SIZES[this.game.players.length][this.game.currentRound]}} players for team.</div>
+    <div>You are the leader. Discuss with everyone who should go on the next quest. When you are ready, choose {{TEAM_SIZES[this.game.players.length][this.game.currentRound]}} players for team.</div>
     <div class="mt-3 d-flex flex-wrap">
       <div *ngFor="let player of game.players" class="mt-1 w-50">
         <button type="button" class="btn" aria-pressed="false" (click)="selectPlayer(player._id)" [ngClass]="{'btn-success': selection.includes(player._id), 'btn-outline-secondary': !selection.includes(player._id)}">
@@ -13,7 +13,7 @@
 
   <ng-template #nonLeader>
     <div class="text-center">
-      Waiting for {{currentLeader.name}} to choose team.
+      Discuss with everyone who should go on the next quest. {{currentLeader.name}} will ultimately choose {{TEAM_SIZES[this.game.players.length][this.game.currentRound]}} players for team.
     </div>
   </ng-template>
 </div>
