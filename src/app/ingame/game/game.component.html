@@ -10,7 +10,7 @@
       <div *ngIf="!player.loyalty" class="ml-1">
         <div>Fellow Traitors:</div>
         <div *ngFor="let currPlayer of game.players" class="ml-2">
-          <div *ngIf="!currPlayer.loyalty">
+          <div *ngIf="!currPlayer.loyalty && currPlayer._id != player._id">
             {{currPlayer.name}}
           </div>
         </div>
