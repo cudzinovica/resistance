@@ -31,6 +31,7 @@ export class GameComponent implements OnInit {
   loyaltyEnum = Loyalty;
   TEAM_SIZES = TEAM_SIZES;
   faQuestionCircle = faQuestionCircle;
+  numEvil: number;
 
   loyalty: string;
   displayLoyalty: boolean;
@@ -56,6 +57,7 @@ export class GameComponent implements OnInit {
         this.fellowTraitors.push(player);
       }
     });
+    this.numEvil = Math.ceil(this.game.players.length / 3);
   }
 
   /** Ends Game */

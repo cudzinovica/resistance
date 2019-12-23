@@ -21,7 +21,7 @@
   <!-- previous phase results -->
   <!-- Game has started -->
   <ngb-alert *ngIf="phaseChangeStatus === phaseChangeStatuses.LobbyToSelection" [dismissible]="false" class="mt-4">
-    <div>Game has started</div>
+    <div>Game has started. There are {{numEvil}} total evil players.</div>
   </ngb-alert>
 
   <!-- Proposed Team -->
