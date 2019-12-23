@@ -24,6 +24,7 @@ export class GameComponent implements OnInit {
   @Input() previousFails: number;
   @Input() currentTeamPlayers: Player[];
   @Input() phaseChangeStatus: number;
+  @Input() numNotVoted: number;
 
   gamePhases = GamePhases;
   phaseChangeStatuses = PhaseChangeStatuses;

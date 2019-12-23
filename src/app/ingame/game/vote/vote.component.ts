@@ -12,6 +12,7 @@ export class VoteComponent implements OnInit {
   @Input() game: Game;
   @Input() playerId: string;
   @Input() player: Player;
+  @Input() numNotVoted: number;
 
   constructor(
     private gameService: GameService,

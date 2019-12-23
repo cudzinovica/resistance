@@ -24,6 +24,7 @@ export class IngameComponent implements OnInit, OnDestroy {
   currentTeamPlayers: Player[];
   previousPasses: number;
   previousFails: number;
+  numNotVoted: number;
 
   private gameSub: Subscription;
   private errorMsgSub: Subscription;
@@ -88,6 +89,12 @@ export class IngameComponent implements OnInit, OnDestroy {
       this.currentLeader = newGame.players[newGame.currentLeaderIdx];
       this.previousPasses = 0;
       this.previousFails = 0;
+      this.numNotVoted = 0;
+      newGame.players.forEach(player => {
+        if (!player.hasVoted) {
+          this.numNotVoted++;
+        }
+      });
       this.currentTeamPlayers = [];
       newGame.currentTeam.forEach(playerId => {
         const player = newGame.players.find(p => p._id === playerId);
@@ -99,6 +106,7 @@ export class IngameComponent implements OnInit, OnDestroy {
         }
       });
     });
+
     this.errorMsgSub = this.gameService.getErrorMessage().subscribe( errorMsg => alert(errorMsg) );
     this.kickPlayerSub = this.gameService.getKickPlayerSub().subscribe( playerId => {
       if (playerId === this.playerId) {

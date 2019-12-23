@@ -1,10 +1,10 @@
 <div *ngIf="!player.hasVoted; else hasVotedTemplate" class="mt-4">
   <div>Do you approve of this team?</div>
-  <div class="mt-2 row">
-    <div class="col text-center"><button type="button" class="btn btn-outline-primary" (click)="submitVote(true)">Yes</button></div>
-    <div class="col text-center"><button type="button" class="btn btn-outline-primary" (click)="submitVote(false)">No</button></div>
+  <div class="mt-2">
+    <div class="text-center mb-1"><button type="button" class="btn btn-outline-success" (click)="submitVote(true)">Yes</button></div>
+    <div class="text-center"><button type="button" class="btn btn-outline-danger" (click)="submitVote(false)">No</button></div>
   </div>
 </div>
 <ng-template #hasVotedTemplate>
-  <div class="mt-4">Waiting for other players to vote.</div>
+  <div class="mt-4">Waiting for {{numNotVoted}} other players to vote.</div>
 </ng-template>

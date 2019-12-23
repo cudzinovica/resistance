@@ -66,7 +66,7 @@
 
   <!-- Phase specific view -->
   <div *ngIf="game.phase == gamePhases.Selection"><app-selection [game]=game [playerId]=playerId [currentLeader]=currentLeader></app-selection></div>
-  <div *ngIf="game.phase == gamePhases.Vote"><app-vote [game]=game [playerId]=playerId [player]=player></app-vote></div>
+  <div *ngIf="game.phase == gamePhases.Vote"><app-vote [game]=game [playerId]=playerId [player]=player [numNotVoted]=numNotVoted></app-vote></div>
   <div *ngIf="game.phase == gamePhases.Quest"><app-quest [game]=game [playerId]=playerId [player]=player></app-quest></div>
 
   <!-- player list -->
@@ -78,7 +78,7 @@
       <div *ngFor="let currPlayer of game.players" class="item">
         <div class="p-1 rounded d-flex flex-row align-items-center" [ngClass]="getPlayerBorderClass(currPlayer._id)">
           <div class="flex-grow-1">{{currPlayer.name}}</div>
-          <span *ngIf="(game.phase === gamePhases.Vote && currPlayer.hasVoted) || (game.phase === gamePhases.Quest && game.currentTeam.includes(currPlayer._id) && currPlayer.hasQuested)" class="oi oi-check"></span>
+          <span *ngIf="game.phase === gamePhases.Quest && game.currentTeam.includes(currPlayer._id) && currPlayer.hasQuested" class="oi oi-check"></span>
         </div>
       </div>
     </div>
