@@ -1,9 +1,8 @@
-import { Component, OnInit, Output } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { GameService } from '../../services/game.service';
 import { PlayerService } from '../../services/player.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-joingame',
@@ -11,31 +10,38 @@ import { PlayerService } from '../../services/player.service';
   styleUrls: ['./joingame.component.css']
 })
 export class JoingameComponent implements OnInit {
-  private gameId: string;
+  @Input() private gameId: string;
+  @Input() private roomCode: string;
   @Output() playerIdChange = new EventEmitter<string>();
+  @Output() showJoinGameChange = new EventEmitter<string>();
 
   constructor(
     private gameService: GameService,
     private playerService: PlayerService,
-    private route: ActivatedRoute,
+    private router: Router,
   ) { }
 
   ngOnInit() {
-    this.gameService.connect();
-    this.route.paramMap.subscribe(params => {
-      this.gameId = params.get('gameId');
-    });
   }
 
   joinGame(playerName: string): void {
     playerName = playerName.trim();
-    if (!playerName) { return; }
+    if (!playerName) {
+      alert('Enter your name!');
+      return;
+    }
 
     this.playerService.createPlayer(this.gameId, playerName).subscribe(createdPlayer => {
       this.playerService.setPlayerId(createdPlayer._id);
       this.playerIdChange.emit(createdPlayer._id);
-
-      this.gameService.joinGame(this.gameId, createdPlayer._id);
+      this.gameService.connect();
+      this.gameService.joinGame(this.roomCode, createdPlayer._id);
+      this.showJoinGameChange.emit('false');
     });
+  }
+
+  leaveGame(): void {
+    this.playerService.removePlayerId();
+    this.router.navigate(['']);
   }
 }

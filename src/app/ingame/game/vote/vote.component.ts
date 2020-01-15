@@ -12,25 +12,17 @@ export class VoteComponent implements OnInit {
   @Input() game: Game;
   @Input() playerId: string;
   @Input() player: Player;
-
-  currentTeamPlayers: Player[];
-
-  currentVote: boolean;
+  @Input() numNotVoted: number;
 
   constructor(
     private gameService: GameService,
   ) { }
 
   ngOnInit() {
-    this.currentTeamPlayers = this.game.currentTeam.map(playerId => this.game.players.find(player => player._id === playerId));
   }
 
-  updateVote(vote: boolean) {
-    this.currentVote = vote;
-  }
-
-  submitVote() {
-    this.gameService.submitVote(this.currentVote);
+  submitVote(vote: boolean) {
+    this.gameService.submitVote(vote);
   }
 
 }

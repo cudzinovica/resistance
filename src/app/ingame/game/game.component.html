@@ -1,66 +1,109 @@
-<div class="mx-5">
-  <div *ngIf="game.phase != gamePhases.Lobby">
-    <button type="button" class="btn btn-outline-primary" (click)="endGame()">End Game</button>
-  </div>
-  <div class="row mt-3">
-    <div *ngIf="displayLoyalty" class="col">
-      <div>You are on team {{loyalty}}</div>
-      <div *ngIf="!player.loyalty" class="mt-2">
-        <div>Fellow Traitors</div>
-        <div *ngFor="let player of fellowTraitors">{{player.name}}</div>
-      </div>
-    </div>
-    <div class="col text-right"><button type="button" class="btn btn-outline-primary" (click)="toggleDisplayLoyalty()">
+<div>
+  <!-- loyalty -->
+  <div class="mt-3 border-top border-bottom">
+    <div class="text-right small" (click)="toggleDisplayLoyalty()">
       <div *ngIf="!displayLoyalty">Show</div>
       <div *ngIf="displayLoyalty">Hide</div>
-    </button></div>
-  </div>
-
-  <div class="text-center container mt-2">
-    <div>Quest Results</div>
-    <div class="row">
-      <div class="col">1</div>
-      <div class="col">2</div>
-      <div class="col">3</div>
-      <div class="col">4</div>
-      <div class="col">5</div>
     </div>
-    <div class="row">
-      <div class="col">{{game.missionResults[0] === undefined ? " " : game.missionResults[0] ? "S" : "F"}}</div>
-      <div class="col">{{game.missionResults[1] === undefined ? " " : game.missionResults[1] ? "S" : "F"}}</div>
-      <div class="col">{{game.missionResults[2] === undefined ? " " : game.missionResults[2] ? "S" : "F"}}</div>
-      <div class="col">{{game.missionResults[3] === undefined ? " " : game.missionResults[3] ? "S" : "F"}}</div>
-      <div class="col">{{game.missionResults[4] === undefined ? " " : game.missionResults[4] ? "S" : "F"}}</div>
-    </div>
-  </div>
-
-  <div *ngIf="game.currentRound > 0 && game.phase === gamePhases.Selection" class="mt-2">
-    <div>Previous Round's Quest Results:</div>
-    <div>{{previousPasses}} Passes, {{previousFails}} Fails</div>
-  </div>
-
-  <div class="mt-2">
-    <div>Current Round: {{game.currentRound + 1}}</div>
-  </div>
-
-  <div class="mt-2">
-    <div>Failed Votes: {{game.failedVotes}}</div>
-  </div>
-
-  <div *ngIf="game.phase === gamePhases.Quest" class="mt-2">
-    <div>Vote Results:</div>
-    <div class="mt-1 d-flex flex-wrap">
-      <div *ngFor="let player of game.players" class="w-50">
-        <div>{{player.name}}: {{player.currentVote ? "Yes" : "No"}}</div>
+    <div *ngIf="displayLoyalty">
+      <div class="h4 mb-3 text-center">You are on team {{loyalty}}</div>
+      <div *ngIf="!player.loyalty" class="ml-1">
+        <div>Fellow Traitors:</div>
+        <div *ngFor="let currPlayer of game.players" class="ml-2">
+          <div *ngIf="!currPlayer.loyalty && currPlayer._id != player._id">
+            {{currPlayer.name}}
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="mt-2">
-    Leader: {{currentLeader.name}}
+  <!-- previous phase results -->
+  <!-- Game has started -->
+  <ngb-alert *ngIf="phaseChangeStatus === phaseChangeStatuses.LobbyToSelection" [dismissible]="false" class="mt-4">
+    <div>Game has started. There are {{numEvil}} total evil players.</div>
+  </ngb-alert>
+
+  <!-- Proposed Team -->
+  <ngb-alert *ngIf="phaseChangeStatus === phaseChangeStatuses.SelectionToVote" [dismissible]="false" class="mt-4">
+    <div>Proposed Team</div>
+    <div class="d-flex flex-row flex-wrap mt-1">
+      <div *ngFor="let currPlayer of currentTeamPlayers" class="w-50 d-flex flex-row">
+        <div>{{currPlayer.name}}</div>
+        <div *ngIf="game.phase === gamePhases.Quest && currPlayer.hasQuested" class="small">Q</div>
+      </div>
+    </div>
+  </ngb-alert>
+
+  <!-- Vote results -->
+  <ngb-alert *ngIf="phaseChangeStatus === phaseChangeStatuses.VoteToSelection || phaseChangeStatus === phaseChangeStatuses.VoteToQuest" class="mt-4" [dismissible]="false">
+    <div *ngIf="phaseChangeStatus === phaseChangeStatuses.VoteToSelection">
+      <div>Vote did not pass</div>
+      <div>Failed Votes: {{game.failedVotes}} (Evil wins at 5)</div>
+    </div>
+    <div *ngIf="phaseChangeStatus === phaseChangeStatuses.VoteToQuest">Vote passed</div>
+    <div class="mt-1">
+      <div>Breakdown:</div>
+      <div class="d-flex flex-row flex-wrap mt-1">
+        <div *ngFor="let currPlayer of game.players" class="w-50">
+          <div class="mx-2">
+            <div class="d-inline">{{currPlayer.name}}: </div>
+            <div *ngIf="currPlayer.currentVote" class="d-inline">Yes</div>
+            <div *ngIf="!currPlayer.currentVote" class="d-inline">No</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ngb-alert>
+
+  <!-- Previous round's quest results -->
+  <ngb-alert *ngIf="phaseChangeStatus === phaseChangeStatuses.QuestToSelection" [dismissible]="false" class="mt-4">
+    <div *ngIf="game.missionResults[game.currentRound-1]">Quest Succeeded</div>
+    <div *ngIf="!game.missionResults[game.currentRound-1]">Quest Failed</div>
+    <div>Breakdown:</div>
+    <div>{{previousPasses}} Passes, {{previousFails}} Fails</div>
+  </ngb-alert>
+
+  <!-- Phase specific view -->
+  <div *ngIf="game.phase == gamePhases.Selection"><app-selection [game]=game [playerId]=playerId [currentLeader]=currentLeader></app-selection></div>
+  <div *ngIf="game.phase == gamePhases.Vote"><app-vote [game]=game [playerId]=playerId [player]=player [numNotVoted]=numNotVoted></app-vote></div>
+  <div *ngIf="game.phase == gamePhases.Quest"><app-quest [game]=game [playerId]=playerId [player]=player></app-quest></div>
+
+  <!-- player list -->
+  <div class="mt-3 pt-4 border-top">
+    <div class="text-center">
+      <div class="h5">Players</div>
+    </div>
+    <div class="mt-1 d-flex flex-wrap">
+      <div *ngFor="let item of [].constructor(game.players.length); let playerIdx = index" class="item">
+        <div class="p-1 rounded d-flex flex-row align-items-center" [ngClass]="getPlayerBorderClass(game.players[playerIdx]._id)">
+          <div class="small mr-2">{{playerIdx+1}}</div>
+          <div class="flex-grow-1">{{game.players[playerIdx].name}}</div>
+          <span *ngIf="game.phase === gamePhases.Quest && game.currentTeam.includes(game.players[playerIdx]._id) && game.players[playerIdx].hasQuested" class="oi oi-check"></span>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div *ngIf="game.phase == gamePhases.Selection"><app-selection [game]=game [playerId]=playerId [currentLeader]=currentLeader></app-selection></div>
-  <div *ngIf="game.phase == gamePhases.Vote"><app-vote [game]=game [playerId]=playerId [player]=player></app-vote></div>
-  <div *ngIf="game.phase == gamePhases.Quest"><app-quest [game]=game [playerId]=playerId [player]=player></app-quest></div>
+  <!-- quest results -->
+  <div class="text-center mt-4">
+    <div class="h5">Quest Results</div>
+    <div class="row">
+      <div *ngFor="let roundNumber of [0,1,2,3,4]" class="w-20 mx-1 p-1 border col" [ngClass]="getQuestResultBorderClass(roundNumber)">
+        <div class="scaling-text">Round {{roundNumber+1}}</div>
+        <div class="h5 m-0">{{roundNumber >= game.currentRound ? TEAM_SIZES[game.players.length][roundNumber] : game.missionResults[roundNumber] ? "Pass" : "Fail"}}</div>
+        <div *ngIf="roundNumber == 3 && game.players.length >= 7" class="small no-line-height">*Two fails required</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- failed vote counter -->
+  <div class="mt-2">
+    <div>Failed Votes: {{game.failedVotes}} (Evil wins at 5)</div>
+  </div>
+
+  <!-- end game button -->
+  <div class="mt-4 pt-4 border-top text-center">
+    <button type="button" class="btn btn-outline-primary" (click)="endGame()">End Game</button>
+  </div>
 </div>

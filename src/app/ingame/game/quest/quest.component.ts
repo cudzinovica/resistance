@@ -13,23 +13,14 @@ export class QuestComponent implements OnInit {
   @Input() playerId: string;
   @Input() player: Player;
 
-  currentTeamPlayers: Player[];
-
-  currentQuest: boolean;
-
   constructor(
     private gameService: GameService,
   ) { }
 
   ngOnInit() {
-    this.currentTeamPlayers = this.game.currentTeam.map(playerId => this.game.players.find(player => player._id === playerId));
   }
 
-  updateQuest(quest: boolean) {
-    this.currentQuest = quest;
-  }
-
-  submitQuest() {
-    this.gameService.submitQuest(this.player.loyalty ? true : this.currentQuest);
+  submitQuest(quest: boolean) {
+    this.gameService.submitQuest(this.player.loyalty ? true : quest);
   }
 }

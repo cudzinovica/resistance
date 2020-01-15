@@ -10,6 +10,9 @@ import { PlayerService } from '../services/player.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
+  creatingGame: boolean;
+  joiningGame: boolean;
+
   constructor(
     private gameService: GameService,
     private playerService: PlayerService,
@@ -17,6 +20,11 @@ export class HomeComponent {
   ) {}
 
   createGame(playerName: string): void {
+    playerName = playerName.trim();
+    if (!playerName) {
+      alert('Enter your name!');
+      return;
+    }
     this.gameService.createGame()
       .subscribe(createdGame => {
         this.joinGame(createdGame.roomCode, playerName);
@@ -24,17 +32,27 @@ export class HomeComponent {
   }
 
   joinGame(roomCode: string, playerName: string): void {
+    roomCode = roomCode.toLowerCase();
     playerName = playerName.trim();
-    if (!playerName) { return; }
+    if (!playerName) {
+      alert('Enter your name!');
+      return;
+    }
+    if (!roomCode) {
+      alert('Enter room code!');
+      return;
+    }
 
-    this.gameService.connect();
+    this.gameService.getGame(roomCode).subscribe(game => {
+      if (!game) {
+        alert(`Game with room code ${roomCode} does not exist`);
+      }
+    });
 
     this.playerService.createPlayer(roomCode, playerName).subscribe(createdPlayer => {
       this.playerService.setPlayerId(createdPlayer._id);
 
-      this.gameService.joinGame(roomCode, createdPlayer._id);
-
-      this.router.navigate(['/game', roomCode]);
+      this.router.navigate([roomCode]);
     });
   }
 }

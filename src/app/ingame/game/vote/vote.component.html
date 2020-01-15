@@ -1,17 +1,10 @@
-<div>
-  <div>Proposed Team:</div>
-  <div>
-    <div *ngFor="let player of currentTeamPlayers">{{player.name}}</div>
-  </div>
-</div>
-<div *ngIf="!player.hasVoted; else hasVotedTemplate" class="mt2">
+<div *ngIf="!player.hasVoted; else hasVotedTemplate" class="mt-4">
   <div>Do you approve of this team?</div>
-  <div class="mt-1 row">
-    <div class="col text-center"><button type="button" class="btn" [ngClass]="{'btn-success': currentVote===true, 'btn-outline-secondary': currentVote!==true}" (click)="updateVote(true)">Yes</button></div>
-    <div class="col text-center"><button type="button" class="btn" [ngClass]="{'btn-success': currentVote===false, 'btn-outline-secondary': currentVote!==false}" (click)="updateVote(false)">No</button></div>
+  <div class="mt-2">
+    <div class="text-center mb-1"><button type="button" class="btn btn-outline-success" (click)="submitVote(true)">Yes</button></div>
+    <div class="text-center"><button type="button" class="btn btn-outline-danger" (click)="submitVote(false)">No</button></div>
   </div>
-  <div class="text-center mt-2"><button type="button" class="btn btn-outline-primary" (click)="submitVote()">Submit</button></div>
 </div>
 <ng-template #hasVotedTemplate>
-  <div class="mt-2">Waiting for other players to vote</div>
+  <div class="mt-4">Waiting for {{numNotVoted}} other players to vote.</div>
 </ng-template>

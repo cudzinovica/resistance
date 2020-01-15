@@ -6,6 +6,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 import { Game } from '../models/game';
+import { environment } from 'src/environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -15,11 +16,12 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class GameService {
-  private baseUrl = 'http://localhost:3000';
+  private baseUrl = environment.resistanceApiUri;
   private gamesUrl = this.baseUrl + '/api/games';
 
   private game: Observable<Game> = this.socket.fromEvent<Game>('game');
   private errorMsg: Observable<string> = this.socket.fromEvent<string>('error_msg');
+  private kickPlayerSub: Observable<string> = this.socket.fromEvent<string>('kick-player');
 
   displayGameOver: boolean;
 
@@ -38,6 +40,10 @@ export class GameService {
     this.log('disconnected from socket');
   }
 
+  isConnected(): boolean {
+    return this.socket.ioSocket.connected;
+  }
+
   getThisGame(): Observable<Game> {
     return this.game.pipe(
       tap((game: Game) => this.log(`got game from socket w/ id=${game.roomCode}`))
@@ -50,12 +56,23 @@ export class GameService {
     );
   }
 
+  getKickPlayerSub(): Observable<string> {
+    return this.kickPlayerSub.pipe(
+      tap((playerId: string) => this.log(`got message to kick player: ${playerId}`))
+    );
+  }
+
   joinGame(roomCode: string, playerId: string): void {
     this.socket.emit('join-game', {roomCode, playerId});
+    this.log(`joined game ${roomCode} as ${playerId}`);
   }
 
   leaveGame(): void {
     this.socket.emit('leave-game');
+  }
+
+  kickPlayer(playerId: string): void {
+    this.socket.emit('kick-player', {playerId});
   }
 
   startGame(): void {
@@ -98,9 +115,7 @@ export class GameService {
   /** GET game by id. Will 404 if id not found */
   getGame(id: string): Observable<Game> {
     const url = `${this.gamesUrl}/${id}`;
-    let params = new HttpParams();
-    params = params.append('populatePlayers', 'true');
-    return this.http.get<Game>(url, {params}).pipe(
+    return this.http.get<Game>(url).pipe(
       tap(_ => this.log(`fetched game id=${id}`)),
       catchError(this.handleError<Game>('getGame'))
     );

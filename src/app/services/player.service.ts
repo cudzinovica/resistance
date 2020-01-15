@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { Player } from '../models/player';
+import { environment } from 'src/environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -14,22 +14,30 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class PlayerService {
-  private baseUrl = 'http://localhost:3000';
+  private baseUrl = environment.resistanceApiUri;
   private gamesUrl = this.baseUrl + '/api/games';
   private playersUrl = 'players';
 
-  private playerId: string;
+  private playerIdKey = 'player-id';
 
   constructor(
     private http: HttpClient,
   ) { }
 
   setPlayerId(playerId: string): void {
-    this.playerId = playerId;
+    console.log(`set playerid: ${playerId}`);
+    localStorage.setItem(this.playerIdKey, playerId);
   }
 
   getPlayerId(): string {
-    return this.playerId;
+    const playerId = localStorage.getItem(this.playerIdKey);
+    console.log(`get playerid: ${playerId}`);
+    return playerId;
+  }
+
+  removePlayerId(): void {
+    console.log(`removed playerid`);
+    localStorage.removeItem(this.playerIdKey);
   }
 
   /** POST: add a new player to the server */
@@ -42,7 +50,7 @@ export class PlayerService {
     );
   }
 
-  /** GET list of players.*/
+  /** GET list of players. */
   getPlayers(gameId: string): Observable<Player[]> {
     const url = `${this.gamesUrl}/${gameId}/${this.playersUrl}`;
     return this.http.get<Player[]>(url).pipe(
