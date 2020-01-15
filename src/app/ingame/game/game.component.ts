@@ -71,7 +71,7 @@ export class GameComponent implements OnInit {
   }
 
   getQuestResultBorderClass(roundNumber: number): any {
-    let questResultBorderClass;
+    let questResultBorderClass: any;
     if (roundNumber < this.game.currentRound) {
       if (this.game.missionResults[roundNumber]) {
         questResultBorderClass = { 'bg-success': true, 'text-white': true };
@@ -87,11 +87,17 @@ export class GameComponent implements OnInit {
   }
 
   getPlayerBorderClass(playerId: string): any {
-    let playerBorderClass;
+    let playerBorderClass: any;
+
     if (this.game.phase !== this.gamePhases.Selection && this.game.currentTeam.includes(playerId)) {
       playerBorderClass = { 'bg-info': true, 'text-white': true};
     } else {
       playerBorderClass = { 'bg-light': true };
+    }
+
+    if (this.currentLeader._id === playerId) {
+      playerBorderClass['border'] = true;
+      playerBorderClass['border-dark'] = true;
     }
     return playerBorderClass;
   }
