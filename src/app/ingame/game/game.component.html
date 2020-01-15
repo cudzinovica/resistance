@@ -75,10 +75,11 @@
       <div class="h5">Players</div>
     </div>
     <div class="mt-1 d-flex flex-wrap">
-      <div *ngFor="let currPlayer of game.players" class="item">
-        <div class="p-1 rounded d-flex flex-row align-items-center" [ngClass]="getPlayerBorderClass(currPlayer._id)">
-          <div class="flex-grow-1">{{currPlayer.name}}</div>
-          <span *ngIf="game.phase === gamePhases.Quest && game.currentTeam.includes(currPlayer._id) && currPlayer.hasQuested" class="oi oi-check"></span>
+      <div *ngFor="let item of [].constructor(game.players.length); let playerIdx = index" class="item">
+        <div class="p-1 rounded d-flex flex-row align-items-center" [ngClass]="getPlayerBorderClass(game.players[playerIdx]._id)">
+          <div class="small mr-2">{{playerIdx+1}}</div>
+          <div class="flex-grow-1">{{game.players[playerIdx].name}}</div>
+          <span *ngIf="game.phase === gamePhases.Quest && game.currentTeam.includes(game.players[playerIdx]._id) && game.players[playerIdx].hasQuested" class="oi oi-check"></span>
         </div>
       </div>
     </div>

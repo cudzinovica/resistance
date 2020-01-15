@@ -3,7 +3,7 @@
     <div>Choose Mission Outcome.</div>
     <div class="mt-2">
       <div class="text-center mb-1"><button type="button" class="btn btn-outline-success" (click)="submitQuest(true)">Pass</button></div>
-      <div class="text-center"><button type="button" class="btn btn-outline-danger" [disabled]="player.loyalty" [ngClass]="{'btn-outline-secondary': player.loyalty}" (click)="submitQuest(false)">Fail</button></div>
+      <div class="text-center"><button type="button" class="btn" [disabled]="player.loyalty" [ngClass]="{'btn-outline-secondary': player.loyalty, 'btn-outline-danger': !player.loyalty}" (click)="submitQuest(false)">Fail</button></div>
     </div>
   </div>
   <ng-template #hasQuestedTemplate>
